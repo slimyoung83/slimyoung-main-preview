@@ -8,9 +8,10 @@
   let pinned = false;
   function expand(value) { rail.classList.toggle('is-expanded', value); toggle.setAttribute('aria-expanded', String(value)); }
   toggle.addEventListener('click', () => { pinned = !pinned; expand(pinned); });
+  panel.addEventListener('click', event => { if (!hoverQuery.matches && !rail.classList.contains('is-expanded')) { event.preventDefault(); event.stopImmediatePropagation(); pinned = true; expand(true); } }, true);
   panel.addEventListener('pointerenter', () => { if (hoverQuery.matches) expand(true); });
   rail.addEventListener('pointerleave', () => { if (hoverQuery.matches && !pinned && !rail.contains(document.activeElement)) expand(false); });
-  rail.addEventListener('focusin', event => { if (event.target !== toggle) expand(true); });
+  rail.addEventListener('focusin', event => { if (event.target !== toggle && (hoverQuery.matches || event.target.matches(':focus-visible'))) expand(true); });
   rail.addEventListener('focusout', event => { if (!pinned && !rail.contains(event.relatedTarget)) expand(false); });
   document.addEventListener('pointerdown', event => { if (!rail.contains(event.target)) { pinned = false; expand(false); } });
   rail.addEventListener('keydown', event => { if (event.key === 'Escape') { pinned = false; expand(false); toggle.focus(); } });

@@ -37,3 +37,13 @@
 .hero-quick.is-expanded .quick-label{transform:none}
 @media(max-width:760px){.hero-quick{width:min(190px,calc(100vw - 16px))}.hero-quick.is-expanded .quick-panel{width:100%}}
 
+
+/* Quick rail: anchored on the right, labels revealed to the left. */
+.hero-quick{right:0;align-items:flex-end;width:min(196px,100vw)}
+.quick-toggle{display:none}
+.quick-panel{align-self:flex-end;width:72px;max-width:100%}
+.hero-quick.is-expanded .quick-panel{width:min(196px,100vw)}
+.quick-action{flex-direction:row-reverse;justify-content:flex-end;text-align:left}
+.quick-label{transform:translateX(-12px)}
+.hero-quick.is-expanded .quick-label{transform:none}
+@media(max-width:760px){.hero-quick{right:0;width:min(190px,100vw)}.quick-panel{width:52px}.hero-quick.is-expanded .quick-panel{width:min(190px,100vw)}}
