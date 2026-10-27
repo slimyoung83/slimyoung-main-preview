@@ -1,0 +1,55 @@
+/* Revision 03: header-only layout. Uses the existing Windows Korean Bold face.
+   No font file is copied or redistributed; other sections keep their fonts. */
+@font-face{
+  font-family:'Slimyoung Header Sans';
+  src:local('MalgunGothicBold'),local('Malgun Gothic Bold');
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+}
+.site-header,.site-header.is-scrolled{
+  display:grid;
+  grid-template-columns:max-content minmax(0,1fr);
+  align-items:center;
+  justify-content:normal;
+  column-gap:36px;
+  height:96px;
+  padding:0 clamp(24px,3vw,64px);
+}
+.site-header .desktop-nav{
+  display:flex;
+  flex-wrap:nowrap;
+  justify-content:flex-start;
+  align-items:center;
+  gap:22px;
+  min-width:0;
+}
+.site-header .desktop-nav>button{
+  font-family:'Slimyoung Header Sans','Malgun Gothic','Noto Sans KR',sans-serif;
+  font-size:16px;
+  font-style:normal;
+  font-weight:700;
+  font-synthesis:none;
+  line-height:1.5;
+  letter-spacing:-.35px;
+  padding:14px 0;
+  min-height:52px;
+  white-space:nowrap;
+}
+.site-header .menu-open{display:none}
+.mobile-menu summary{
+  font-family:'Slimyoung Header Sans','Malgun Gothic','Noto Sans KR',sans-serif;
+  font-size:16px;
+  font-weight:700;
+  font-synthesis:none;
+}
+/* Use a full menu rather than shrinking 16px labels when the row is tight. */
+@media(max-width:1279px){
+  .site-header,.site-header.is-scrolled{grid-template-columns:max-content max-content;justify-content:space-between;column-gap:24px;height:96px}
+  .site-header .desktop-nav{display:none}
+  .site-header .mega-panel{display:none}
+  .site-header .menu-open{display:block;font-size:13px;font-weight:700}
+}
+@media(max-width:760px){
+  .site-header,.site-header.is-scrolled{height:90px;padding-inline:6%}
+}
