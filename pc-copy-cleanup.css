@@ -1,0 +1,24 @@
+/* Copy removal only. Preserve all geometry, typography, colors and behaviors.
+   Safety/medical/consent notices and consultation status dialog remain intact.
+   Original text remains available at mobile/tablet widths. */
+@media (min-width:1200px) {
+  /* Keep the fallback's anonymous flex text geometry and its useful small notice. */
+  .sy-youtube .sy-thumb-fallback { color:transparent !important; }
+  .hero .sample,
+  .hero .hero-bottom,
+  .hero .hero-media-state,
+  .hero .eyebrow,
+  .consult-bar-02 .db-preview-note,
+  .p8-section .eyebrow,
+  .doctor-visual .visual-caption,
+  .design-canvas .canvas-caption,
+  .pc-decoration,
+  .sy-choice-placeholder,
+  .sy-video-header .sy-view-more,
+  .reviews-section .section-side .pending-link,
+  .mega-top > p,
+  .mega-panel > .menu-note,
+  .p8-footer > p {
+    visibility:hidden !important;
+  }
+}
