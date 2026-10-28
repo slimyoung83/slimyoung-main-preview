@@ -54,3 +54,10 @@ body{background:var(--charcoal);color:var(--ivory);padding-bottom:92px}button,a{
 .sy-youtube button:focus-visible,.sy-youtube a:focus-visible{outline:2px solid #d4adf1;outline-offset:4px}
 @media(max-width:900px){.sy-youtube .sy-video-grid{grid-template-columns:minmax(0,1fr);gap:23px}.sy-youtube .sy-video-choice{grid-template-columns:140px minmax(0,1fr)}.sy-youtube .sy-choice-copy strong{font-size:14px}.sy-youtube .sy-choice-copy small{font-size:10px}}
 @media(max-width:480px){.sy-youtube{padding:55px 18px}.sy-youtube .sy-video-container{padding:20px 15px;border-radius:22px}.sy-youtube .sy-video-header{gap:10px;margin-bottom:20px}.sy-youtube .sy-video-header h2{font-size:22px;gap:9px}.sy-youtube .sy-youtube-icon{width:27px;height:21px}.sy-youtube .sy-view-more{font-size:9px}.sy-youtube .sy-video-choice{grid-template-columns:105px minmax(0,1fr);gap:11px}.sy-youtube .sy-choice-copy strong{font-size:12px}.sy-youtube .sy-featured-caption h3{font-size:15px}.sy-youtube .sy-featured{border-radius:10px}.sy-youtube .sy-video-status{font-size:9px}}
+
+/* Section 02 A: larger desktop presentation; touch layouts stay unchanged. */
+@media(min-width:901px){
+ .sy-youtube{padding-inline:clamp(24px,calc(50vw - 640px),80px)}
+ .sy-youtube .sy-video-container{max-width:1560px;padding:28px}
+ .sy-youtube .sy-video-grid{grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:24px}
+}
