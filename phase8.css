@@ -55,27 +55,38 @@ body{background:var(--charcoal);color:var(--ivory);padding-bottom:92px}button,a{
 @media(max-width:900px){.sy-youtube .sy-video-grid{grid-template-columns:minmax(0,1fr);gap:23px}.sy-youtube .sy-video-choice{grid-template-columns:140px minmax(0,1fr)}.sy-youtube .sy-choice-copy strong{font-size:14px}.sy-youtube .sy-choice-copy small{font-size:10px}}
 @media(max-width:480px){.sy-youtube{padding:55px 18px}.sy-youtube .sy-video-container{padding:20px 15px;border-radius:22px}.sy-youtube .sy-video-header{gap:10px;margin-bottom:20px}.sy-youtube .sy-video-header h2{font-size:22px;gap:9px}.sy-youtube .sy-youtube-icon{width:27px;height:21px}.sy-youtube .sy-view-more{font-size:9px}.sy-youtube .sy-video-choice{grid-template-columns:105px minmax(0,1fr);gap:11px}.sy-youtube .sy-choice-copy strong{font-size:12px}.sy-youtube .sy-featured-caption h3{font-size:15px}.sy-youtube .sy-featured{border-radius:10px}.sy-youtube .sy-video-status{font-size:9px}}
 
-/* Section 02 A: larger desktop presentation; touch layouts stay unchanged. */
-@media(min-width:901px){
- .sy-youtube{padding-inline:clamp(24px,calc(50vw - 640px),80px)}
- .sy-youtube .sy-video-container{max-width:1560px;padding:28px}
- .sy-youtube .sy-video-grid{grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:24px}
-}
-
-/* Section 02: viewport-width desktop layout and independent centered heading. */
-.sy-youtube .sy-video-header{position:relative;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;min-height:46px}
-.sy-youtube .sy-video-header h2{justify-self:center;text-align:center;max-width:100%}
+/* Section 02: open editorial layout, without an enclosing card. */
+.sy-youtube{padding:90px 0;background:#17151c}
+.sy-youtube .sy-video-container{width:95%;max-width:none;margin-inline:auto;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible}
+.sy-youtube .sy-video-header{position:relative;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;min-height:58px;margin-bottom:42px}
+.sy-youtube .sy-video-header h2{justify-self:center;text-align:center;font-size:clamp(28px,2.5vw,48px);gap:16px}
+.sy-youtube .sy-youtube-icon{width:42px;height:32px}
 .sy-youtube .sy-view-more{position:absolute;right:0;top:50%;transform:translateY(-50%)}
-@media(min-width:901px){
- .sy-youtube{padding-inline:0}
- .sy-youtube .sy-video-container{width:94%;max-width:1800px;padding:24px}
- .sy-youtube .sy-video-grid{grid-template-columns:minmax(0,13fr) minmax(0,7fr);gap:24px}
- .sy-youtube .sy-video-list{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));aspect-ratio:112/117;gap:12px}
- .sy-youtube .sy-video-choice{min-height:0}
- .sy-youtube .sy-choice-copy strong{font-size:clamp(13px,.9vw,16px)}
- .sy-youtube .sy-choice-copy small{font-size:clamp(10px,.65vw,12px)}
+.sy-youtube .sy-video-grid{grid-template-columns:minmax(0,13fr) minmax(0,7fr);gap:clamp(22px,2vw,38px)}
+.sy-youtube .sy-featured>img,.sy-youtube .sy-choice-thumb img{object-fit:contain}
+.sy-youtube .sy-video-list{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));aspect-ratio:112/117;gap:clamp(16px,1.3vw,25px)}
+.sy-youtube .sy-video-choice{grid-template-columns:minmax(0,52%) minmax(0,1fr);gap:clamp(12px,1vw,20px);padding:10px;border-color:transparent;background:transparent;min-height:0}
+.sy-youtube .sy-video-choice:hover{background:#ffffff04;border-color:#a67ec566}
+.sy-youtube .sy-video-choice[aria-pressed=true]{background:#a881c50c;border-color:#b68bd5}
+.sy-youtube .sy-choice-thumb{border-radius:12px}
+.sy-youtube .sy-choice-copy strong{font-size:clamp(14px,1.05vw,20px);line-height:1.65}
+.sy-youtube .sy-choice-copy small{font-size:clamp(10px,.7vw,13px)}
+.sy-youtube .sy-featured-caption h3{font-size:clamp(17px,1.2vw,23px)}
+@media(max-width:900px){
+ .sy-youtube{padding-block:65px}
+ .sy-youtube .sy-video-container{width:94%}
+ .sy-youtube .sy-video-grid{grid-template-columns:minmax(0,1fr);gap:26px}
+ .sy-youtube .sy-video-header{margin-bottom:28px}
+ .sy-youtube .sy-video-list{aspect-ratio:auto;grid-template-rows:none;gap:16px}
+ .sy-youtube .sy-video-choice{grid-template-columns:minmax(0,40%) minmax(0,1fr);padding:8px;gap:16px}
+ .sy-youtube .sy-choice-copy strong{font-size:16px}
 }
 @media(max-width:480px){
- .sy-youtube .sy-video-header{padding-top:19px;min-height:62px}
+ .sy-youtube{padding-block:50px}
+ .sy-youtube .sy-video-header{padding-top:24px;min-height:66px;margin-bottom:25px}
+ .sy-youtube .sy-video-header h2{font-size:27px;gap:10px}
+ .sy-youtube .sy-youtube-icon{width:32px;height:24px}
  .sy-youtube .sy-view-more{top:0;transform:none}
+ .sy-youtube .sy-video-choice{grid-template-columns:minmax(0,43%) minmax(0,1fr);gap:12px}
+ .sy-youtube .sy-choice-copy strong{font-size:14px}
 }
