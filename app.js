@@ -89,33 +89,73 @@
     $('#youtube').href = `https://www.youtube.com/watch?v=${encodeURIComponent(video.id)}`;
     show($('#video-dialog'));
   }
-  function selectVideo(index) {
-    const video = videos[index]; if (!video) return;
-    selectedVideo = index; $('#featured-title').textContent = video.title;
-    $('#featured-index').textContent = `${String(index + 1).padStart(2, '0')} / FILM`;
-    $('#featured-source').href = safeURL(video.source);
-    $('.video-topic').textContent = index === 0 ? '지방이식,\n그 이후의 이야기.' : video.title;
-    $$('.video-list-item[data-index]').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.index) === index)));
+  // Section 02: all ordering and video metadata live in content.youtube.
+  // The existing hero video above remains independent and unchanged.
+  const videoConfig = content.youtube || {};
+  const sectionItems = (videoConfig.items || []).filter(item => item && /^[A-Za-z0-9_-]{11}$/.test(item.id));
+  const itemById = new Map(sectionItems.map((item, i) => [item.id, {...item, label: item.title || `슬림영 영상 ${String(i + 1).padStart(2, '0')}`} ]));
+  const primaryId = videoConfig.primaryId;
+  const secondaryIds = [...new Set(videoConfig.secondaryIds || [])].filter(id => id !== primaryId && itemById.has(id));
+  let currentId = primaryId;
+  const videoStatus = $('#sy-video-status');
+  function attachThumbnail(img, id, alt) {
+    img.alt = alt; img.hidden = false;
+    img.onerror = () => { img.hidden = true; if (img.id === 'sy-featured-thumb') videoStatus.textContent = '썸네일을 불러오지 못했습니다. 재생 버튼 또는 YouTube 원본 링크를 이용해 주세요.'; };
+    img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
   }
-  for (let index = 0; index < Math.max(3, videos.length); index++) {
-    const video = videos[index]; const button = el('button', 'video-list-item'); button.type = 'button';
-    const mini = el('span', 'video-mini', video ? String(index + 1).padStart(2, '0') : 'COMING SOON');
-    const copy = el('span');
-    copy.append(el('strong', '', video ? video.title : '공식 영상 자료 확인 중'));
-    copy.append(el('small', '', video ? '공식 게시글 확인 · 선택하여 보기' : '영상 ID 확인 후 연결'));
-    if (video) {
-      const thumb = image(`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`, `${video.title} 썸네일`);
-      thumb.addEventListener('error', () => { thumb.hidden = true; }); mini.append(thumb);
-      button.dataset.index = String(index); button.setAttribute('aria-pressed', String(index === 0));
-      button.addEventListener('click', () => selectVideo(index));
-    } else button.disabled = true;
-    button.append(mini, copy); $('#video-list').append(button);
+  function selectSectionVideo(id) {
+    const item = itemById.get(id); if (!item) return;
+    currentId = id;
+    $('#featured-title').textContent = item.label;
+    $('#featured-play').setAttribute('aria-label', `${item.label} 재생`);
+    $('#featured-play').dataset.videoId = id;
+    $('#featured-source').href = `https://www.youtube.com/watch?v=${id}`;
+    videoStatus.textContent = `${item.label} 선택됨. 재생 버튼을 눌러 주세요.`;
+    attachThumbnail($('#sy-featured-thumb'), id, `${item.label} YouTube 썸네일`);
+    $$('#video-list button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.videoId === id)));
+    $('#sy-reset').setAttribute('aria-pressed', String(id === primaryId));
   }
-  if (!videos.length) {
-    $('#featured-play').disabled = true; $('#featured-title').textContent = '공식 영상 자료 확인 중';
-    $('#featured-source').removeAttribute('href');
+  secondaryIds.forEach(id => {
+    const item = itemById.get(id);
+    const button = el('button', 'sy-video-choice'); button.type = 'button'; button.dataset.videoId = id;
+    button.setAttribute('aria-pressed', 'false'); button.setAttribute('aria-label', `${item.label} 선택`);
+    const thumb = el('span', 'sy-choice-thumb');
+    thumb.append(el('span', 'sy-choice-placeholder', 'SLIMYOUNG'));
+    const img = el('img'); img.loading = 'lazy'; img.decoding = 'async';
+    attachThumbnail(img, id, `${item.label} YouTube 썸네일`); thumb.append(img);
+    const copy = el('span', 'sy-choice-copy');
+    copy.append(el('strong', '', item.label), el('small', '', '선택하여 크게 보기'));
+    button.append(thumb, copy); button.addEventListener('click', () => selectSectionVideo(id));
+    $('#video-list').append(button);
+  });
+  if (itemById.has(primaryId)) selectSectionVideo(primaryId);
+  else { $('#featured-play').disabled = true; videoStatus.textContent = '대표 영상 정보를 확인해 주세요.'; }
+  $('#sy-reset').addEventListener('click', () => selectSectionVideo(primaryId));
+  let sectionPlayerTimer = null;
+  $('#video-dialog').addEventListener('close', () => { clearTimeout(sectionPlayerTimer); sectionPlayerTimer = null; });
+  $('#featured-play').addEventListener('click', () => {
+    const item = itemById.get(currentId); if (!item) return;
+    clearTimeout(sectionPlayerTimer);
+    const frame = el('iframe');
+    frame.src = `https://www.youtube-nocookie.com/embed/${item.id}?autoplay=0&rel=0&playsinline=1`;
+    frame.title = item.label; frame.allow = 'encrypted-media; picture-in-picture; fullscreen'; frame.allowFullscreen = true;
+    frame.referrerPolicy = 'strict-origin-when-cross-origin';
+    $('#player').replaceChildren(frame); $('#video-title').textContent = item.label;
+    $('#youtube').href = `https://www.youtube.com/watch?v=${item.id}`;
+    frame.addEventListener('error', () => { $('#video-title').textContent = '영상을 불러오지 못했습니다. 아래 YouTube 원본 링크를 이용해 주세요.'; });
+    sectionPlayerTimer = setTimeout(() => { if ($('#video-dialog').open) $('#video-title').textContent = `${item.label} · 재생이 제한되면 아래 YouTube 원본 링크를 이용해 주세요.`; }, 12000);
+    show($('#video-dialog'));
+  });
+  // A channel is never guessed from an individual video URL.
+  if (typeof videoConfig.channelUrl === 'string') {
+    try {
+      const u = new URL(videoConfig.channelUrl);
+      if (u.protocol === 'https:' && ['youtube.com', 'www.youtube.com'].includes(u.hostname) && /^\/(?:@[^/]+|channel\/[^/]+)\/?$/.test(u.pathname)) {
+        const link = el('a', 'sy-view-more'); link.href = u.href; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = 'View More ↗'; $('#sy-channel').replaceWith(link);
+      }
+    } catch { /* Keep the visible, non-linked placeholder. */ }
   }
-  $('#featured-play').addEventListener('click', () => openVideo(selectedVideo));
+
   $$('[data-video]').forEach(button => {
     const index = videos.findIndex(video => video.id === button.dataset.video);
     button.disabled = index < 0;
