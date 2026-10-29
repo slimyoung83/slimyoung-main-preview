@@ -1,0 +1,23 @@
+/* PC section 02 only. No change below 1200px. */
+.sy-pc-thumb,.sy-pc-video-title {display:none;}
+@media (min-width:1200px) {
+  .sy-youtube {background:var(--charcoal);}
+  .sy-youtube .sy-video-container {background:transparent;border:0;padding:0;box-shadow:none;}
+  .sy-youtube .sy-video-grid {display:grid;grid-template-columns:minmax(0,13fr) minmax(0,8fr);grid-template-rows:auto auto auto;column-gap:clamp(28px,2.5vw,48px);row-gap:0;align-items:start;}
+  .sy-youtube .sy-video-main {display:contents;}
+  .sy-youtube .sy-featured {grid-column:1;grid-row:1;aspect-ratio:16/9;width:100%;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;}
+  .sy-youtube .sy-featured > img:not(.sy-pc-thumb),.sy-youtube .sy-choice-thumb > img:not(.sy-pc-thumb) {display:none!important;}
+  .sy-youtube .sy-pc-thumb {display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;}
+  .sy-youtube .sy-pc-thumb[hidden] {display:none;}
+  .sy-youtube .sy-video-list {grid-column:2;grid-row:1;display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(18px,1.5vw,28px);height:100%;min-height:0;aspect-ratio:auto;align-self:stretch;}
+  .sy-youtube .sy-video-choice {display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:clamp(16px,1.3vw,25px);width:100%;height:100%;min-height:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;}
+  .sy-youtube .sy-video-choice:hover,.sy-youtube .sy-video-choice[aria-pressed=true] {background:transparent;border:0;}
+  .sy-youtube .sy-choice-thumb {height:100%;width:auto;min-width:0;aspect-ratio:16/9;border-radius:0;background:transparent;overflow:hidden;}
+  .sy-youtube .sy-video-choice[aria-pressed=true] .sy-choice-thumb {outline:2px solid #8151AC;outline-offset:-2px;}
+  .sy-youtube .sy-pc-video-title {display:block;min-width:0;margin:0;color:inherit;font-size:clamp(14px,1.05vw,20px);font-weight:500;line-height:1.7;overflow-wrap:anywhere;text-align:left;}
+  .sy-youtube .sy-pc-video-title:empty {display:none;}
+  .sy-youtube .sy-featured-caption {grid-column:1;grid-row:2;justify-content:flex-end;padding:12px 0 0;}
+  .sy-youtube .sy-original {grid-column:1;grid-row:3;justify-self:start;}
+  .sy-youtube .sy-play-caption {display:none;}
+  .sy-youtube.sy-pc-thumbnail-ready .sy-video-status {display:none!important;}
+}

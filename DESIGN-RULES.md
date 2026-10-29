@@ -28,3 +28,15 @@ Scope: ONLY slimyoung83/slimyoung-main-preview and https://slimyoung83.github.io
 Exceptions: do not automatically deploy work explicitly paused, held or awaiting approval. Design-selection mockups are never auto-published. Confirm scope first for major structural changes or risk of original-data loss. Do not claim inaccessible browser checks passed. Never force-push or delete history.
 
 Protected without separate explicit authorization: slimyoung83/slimyoung-main-homepage (entire private source repository), slimyoung.co.kr/Cafe24 production, slimyoung26jp, customer/reservation data, production servers and databases. Test-site authorization does not extend to these targets.
+
+## Permanent PC caption prohibition — user-confirmed 2026-10-29
+
+- Applies to every PC section 01–07 and both fixed consultation interfaces in future edits.
+- Never add decorative English captions, temporary explanatory captions, development/test/sample/preview status, photo-slot/data-entry waiting text, design explanations, unnecessary video descriptions, repeated selection instructions, repeated brand labels or small text used to fill space.
+- Do not invent supporting captions unless explicitly requested by the user. After removing captions, collapse their unnecessary space and align the remaining title, media and controls naturally.
+- Preserve actual content titles, navigation, button labels, mandatory privacy consent, legal/medical-advertising disclosures and essential safety/function notices.
+- Keep the consultation service unconnected; clicks must retain the non-submission notice. Never imply a booking was received.
+- Video titles must be verified source titles, never numbered temporary titles. If source metadata cannot be verified, omit the title instead of guessing; report the limitation.
+- Current exception to the earlier layout freeze: only PC section 02 YouTube layout is authorized to change. Preserve PC 01 and 03–07, and all mobile 390px design/content/behavior.
+- Section 02: one large left video, three equal-height right rows with titles at their right; align the thumbnail stack's top/bottom with the featured thumbnail. No cards, panel backgrounds, decorative captions or letterbox padding. Playback remains 16:9.
+- Current work starts from b79654a2929977881e391bb287c8833f5b6769f9. Preserve this recovery point and all Git history.
