@@ -1,24 +1,26 @@
-/* Copy removal only. Preserve all geometry, typography, colors and behaviors.
-   Safety/medical/consent notices and consultation status dialog remain intact.
-   Original text remains available at mobile/tablet widths. */
+/* Desktop-only caption cleanup; mobile content and behavior remain unchanged. */
 @media (min-width:1200px) {
-  /* Keep the fallback's anonymous flex text geometry and its useful small notice. */
-  .sy-youtube .sy-thumb-fallback { color:transparent !important; }
-  .hero .sample,
-  .hero .hero-bottom,
-  .hero .hero-media-state,
-  .hero .eyebrow,
-  .consult-bar-02 .db-preview-note,
-  .p8-section .eyebrow,
-  .doctor-visual .visual-caption,
-  .design-canvas .canvas-caption,
-  .pc-decoration,
-  .sy-choice-placeholder,
-  .sy-video-header .sy-view-more,
-  .reviews-section .section-side .pending-link,
-  .mega-top > p,
-  .mega-panel > .menu-note,
-  .p8-footer > p {
-    visibility:hidden !important;
-  }
+.hero .sample,.hero .hero-bottom,.hero .hero-media-state,.hero .eyebrow,
+.consult-bar-02 .db-preview-note,.p8-section .eyebrow,
+.doctor-visual .visual-caption,.design-canvas .canvas-caption,.design-canvas .canvas-label,
+.sy-choice-placeholder,.sy-video-header .sy-view-more,.sy-youtube .sy-thumb-fallback,
+.sy-choice-copy,#featured-title,.reviews-section .section-side,
+.reviews-section > .content-note,.review-slot,.review-masonry:not(:has(.review-card)),
+.doctor-visual:not(:has(img)),.doctor-copy > .content-note,.expertise-cards,
+.before-section > .content-note,.before-section .section-side,
+.case-track:not(:has(img)),
+.carousel-footer:has(button:disabled):not(:has(button:not(:disabled))),
+.design-copy > .content-note,.visit-details > div:has(dd small),.map-card > small,
+.quick-note,.db-consent small,.mega-top > p,.mega-panel .pending-link,
+.mega-panel > .menu-note,.p8-footer > p,
+#video-dialog:has(iframe[src*="playsinline"]) #video-title {display:none!important;}
+.sy-youtube .sy-video-choice {grid-template-columns:minmax(0,1fr);}
+.sy-youtube .sy-choice-thumb {width:100%;height:100%;aspect-ratio:auto;}
+.sy-youtube .sy-featured-caption {justify-content:flex-end;padding-top:12px;}
+.doctor-section:not(:has(.doctor-slot img)) {grid-template-columns:minmax(0,1fr);gap:0;}
+.doctor-section:not(:has(.doctor-slot img)) .doctor-copy {max-width:900px;}
+.before-section .category-tabs {margin-bottom:0;}
+.mega-top {border:0;padding:0;justify-content:flex-end;}
+.consult-bar-02 {padding-bottom:8px;}
+.sy-youtube:not(:has(#sy-featured-thumb[hidden])) .sy-video-status {display:none!important;}
 }
