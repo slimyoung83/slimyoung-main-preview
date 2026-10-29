@@ -23,4 +23,5 @@
 .mega-top {border:0;padding:0;justify-content:flex-end;}
 .consult-bar-02 {padding-bottom:8px;}
 .sy-youtube:not(:has(#sy-featured-thumb[hidden])) .sy-video-status {display:none!important;}
+.design-copy > .editorial-copy,.doctor-copy > .editorial-copy,.map-card > h3 {display:none!important;}
 }
