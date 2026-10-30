@@ -9,7 +9,7 @@
   const desktop=matchMedia('(min-width:1200px)');
   const originalLabel=section.getAttribute('aria-labelledby');
   const linkURL=value=>{if(!value)return null;try{const u=new URL(value,location.href);return u.protocol==='https:'?u.href:null;}catch{return null;}};
-  const items=Array.from({length:6},()=>({}));
+  const items=Array.from({length:6},(_,index)=>index===0 ? (config.items?.[0] || {}) : {});
   function clear() {
     section.classList.remove('pc-gallery-mode');
     section.querySelectorAll('.pc-review-generated').forEach(e=>e.remove());
@@ -28,10 +28,16 @@
     else {more.type='button';more.disabled=true;}
     section.querySelector('.section-head').append(more);
     const gallery=document.createElement('div');gallery.className='pc-review-generated pc-gallery';gallery.setAttribute('role','list');
-    items.forEach(()=>{
+    items.forEach((item)=>{
       const card=document.createElement('figure');
       card.className='pc-gallery-card';
       card.setAttribute('role','listitem');
+      if(item.src){
+        const image=document.createElement('img');
+        image.src=item.src;image.alt=item.alt || '';image.loading='lazy';image.decoding='async';
+        image.style.objectFit='contain';
+        card.append(image);
+      }
       gallery.append(card);
     });
     section.append(gallery);section.classList.add('pc-gallery-mode');section.setAttribute('aria-labelledby',title.id);
