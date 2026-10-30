@@ -7,8 +7,8 @@
   const section=document.querySelector('#reviews'),config=window.SLIMYOUNG_PC_REVIEW_GALLERY;
   if(!section||!config)return;
   const linkURL=value=>{if(!value)return null;try{const u=new URL(value,location.href);return u.protocol==='https:'?u.href:null;}catch{return null;}};
-  const items=(config.items||[]).filter(item=>item.src&&Number.isInteger(item.column)&&item.column>=1&&item.column<=5)
-    .slice().sort((a,b)=>a.column-b.column||a.order-b.order);
+  const items=[...(config.topItems||[]),...(config.items||[])].filter(item=>(item.src||config.showPlaceholders)&&Number.isInteger(item.column)&&item.column>=1&&item.column<=5)
+    .slice().sort((a,b)=>(a.order===0?0:1)-(b.order===0?0:1)||a.column-b.column||a.order-b.order);
   const title=document.createElement('h2');title.className='pc-review-generated pc-gallery-title';title.id='pc-review-heading';
   title.append('Real Selfie ');const emphasis=document.createElement('em');emphasis.textContent='Review';title.append(emphasis);
   section.querySelector('.section-head > div').append(title);
@@ -32,11 +32,20 @@
       const index=wide.matches?item.column-1:heights.indexOf(Math.min(...heights));
       const card=document.createElement('figure');card.className='pc-gallery-card';
       card.dataset.type=item.type==='square'?'square':'portrait';
+      card.dataset.column=item.column;card.dataset.order=item.order;
+      if(item.src){
       const image=document.createElement('img');image.src=item.src;image.alt=item.alt||'';image.loading='lazy';image.decoding='async';
       image.style.objectFit=item.fit==='contain'?'contain':'cover';image.style.objectPosition=item.position||'center';
       if(item.preserveRatio){card.classList.add('pc-gallery-natural');image.addEventListener('load',()=>{card.style.aspectRatio=`${image.naturalWidth} / ${image.naturalHeight}`;},{once:true});}
       image.addEventListener('error',()=>{card.remove();},{once:true});
-      card.append(image);columns[index].append(card);
+      card.append(image);
+      } else {
+        card.classList.add('pc-gallery-placeholder');
+        card.setAttribute('aria-label','사진 미등록 레이아웃 자리');
+        const mark=document.createElement('span');mark.className='pc-gallery-placeholder-mark';mark.setAttribute('aria-hidden','true');
+        card.append(mark);
+      }
+      columns[index].append(card);
       heights[index]+=(card.dataset.type==='square'?1:4/3)+.07;
     });
   }

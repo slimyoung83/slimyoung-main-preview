@@ -1,4 +1,4 @@
-/* All selectors are scoped to section 03; no empty cards are rendered. */
+/* Section 03 local layout study: unregistered positions use CSS placeholders. */
 #reviews.pc-gallery-mode {background:var(--charcoal);color:var(--ivory);padding-block:80px;}
 #reviews.pc-gallery-mode #reviews-heading,
 #reviews.pc-gallery-mode #review-grid,
@@ -24,3 +24,7 @@
  #reviews.pc-gallery-mode .pc-gallery-column:nth-child(5) {padding-top:45px;}
  #reviews.pc-gallery-mode .pc-gallery-column:nth-child(3) {padding-top:35px;}
 }
+
+#reviews.pc-gallery-mode .pc-gallery-placeholder {position:relative;background:linear-gradient(145deg,#302937,#27232c 65%);}
+#reviews.pc-gallery-mode .pc-gallery-placeholder-mark {position:absolute;inset:calc(50% - 13px);width:26px;height:26px;border:1px solid #705780;border-radius:7px;opacity:.45;}
+#reviews.pc-gallery-mode .pc-gallery-placeholder-mark::after {content:'';position:absolute;inset:6px;border:1px solid #9670b3;border-radius:50%;}
