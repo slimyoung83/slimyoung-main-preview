@@ -28,3 +28,5 @@
 #reviews.pc-gallery-mode .pc-gallery-placeholder {position:relative;background:linear-gradient(145deg,#302937,#27232c 65%);}
 #reviews.pc-gallery-mode .pc-gallery-placeholder-mark {position:absolute;inset:calc(50% - 13px);width:26px;height:26px;border:1px solid #705780;border-radius:7px;opacity:.45;}
 #reviews.pc-gallery-mode .pc-gallery-placeholder-mark::after {content:'';position:absolute;inset:6px;border:1px solid #9670b3;border-radius:50%;}
+
+#reviews.pc-gallery-mode .pc-gallery-disclosure {max-width:1560px;margin:16px auto 0;color:#d0c2dc;font-size:13px;line-height:1.6;}

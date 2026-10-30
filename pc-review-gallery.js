@@ -19,6 +19,7 @@
   section.querySelector('.section-head').append(more);
   const gallery=document.createElement('div');gallery.className='pc-review-generated pc-gallery';
   section.append(gallery);section.classList.add('pc-gallery-mode');section.setAttribute('aria-labelledby',title.id);
+  if(config.notice){const notice=document.createElement('p');notice.className='pc-gallery-disclosure';notice.textContent=config.notice;section.querySelector('.section-head').after(notice);}
   const wide=matchMedia('(min-width:1200px)'),tablet=matchMedia('(min-width:768px)');
   function render(){
     gallery.replaceChildren();
