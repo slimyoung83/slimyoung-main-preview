@@ -21,3 +21,9 @@
   .sy-youtube .sy-play-caption {display:none;}
   .sy-youtube.sy-pc-thumbnail-ready .sy-video-status {display:none!important;}
 }
+
+/* Hide only the two requested utility controls; playback/data remain intact. */
+.sy-youtube #featured-source,.sy-youtube #sy-reset {display:none!important;}
+.sy-youtube .sy-featured-caption {padding-bottom:0;}
+.sy-youtube .sy-featured-caption:has(h3:empty) {display:none;}
+@media(min-width:1200px){.sy-youtube .sy-video-grid {grid-template-rows:auto auto;}.sy-youtube .sy-featured-caption {padding:0;}}

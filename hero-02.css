@@ -50,7 +50,7 @@
 
 /* Consultation glass refresh: no transmission or CRM integration. */
 .consult-bar.consult-bar-02 {
- background:linear-gradient(100deg,rgba(50,43,60,.36),rgba(76,60,86,.40),rgba(48,37,56,.36));
+ background:linear-gradient(100deg,rgba(50,43,60,.18),rgba(76,60,86,.22),rgba(48,37,56,.18));
  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
  padding:14px 22px 10px;border-radius:30px;border-color:#dbc4ee66;
  box-shadow:0 8px 32px #180d2624,inset 0 1px 0 #f1ddff26;
@@ -96,3 +96,22 @@
 @media(max-width:1180px) and (min-width:761px){.hero .hero-rolling {bottom:210px;}}
 /* Existing mobile image occupies y=100..360; dots sit inside its lower edge. */
 @media(max-width:760px){.hero .hero-rolling {top:326px;bottom:auto;}}
+
+/* Full-width original imagery; only hero media/shade placement changes. */
+.hero .hero-slides {position:absolute;inset:0;width:100%;height:100%;background:transparent;}
+.hero .hero-slides img {width:100%;height:100%;object-fit:cover;object-position:center 25%;}
+.hero .hero-shade {background:linear-gradient(90deg,rgba(26,21,35,.88) 0%,rgba(26,21,35,.70) 26%,rgba(26,21,35,.35) 48%,rgba(26,21,35,.08) 72%,transparent 100%);}
+@media(min-width:761px) and (max-width:1180px){
+ .hero .hero-slides img:nth-child(1) {object-position:20% center;}
+ .hero .hero-slides img:nth-child(2) {object-position:30% center;}
+}
+@media(max-width:760px){
+ /* Preserve the copy's existing flow position after removing the 260px media block. */
+ .hero .hero-copy {margin-top:285px;}
+ .hero .hero-slides img:nth-child(1) {object-position:54% center;}
+ .hero .hero-slides img:nth-child(2) {object-position:70% center;}
+ .hero .hero-shade {background:linear-gradient(90deg,rgba(26,21,35,.55),rgba(26,21,35,.10)),linear-gradient(180deg,rgba(26,21,35,.12) 22%,rgba(26,21,35,.20) 38%,rgba(26,21,35,.78) 65%,rgba(26,21,35,.88) 100%);}
+}
+
+/* Keep white lettering legible over light content without an opaque overlay. */
+.consult-bar.consult-bar-02 {text-shadow:0 1px 1px rgba(16,10,24,.95),0 0 4px rgba(16,10,24,.85);}
