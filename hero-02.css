@@ -83,3 +83,16 @@
  .consult-bar-02 .db-preview-note {font-size:8px;margin:7px 0 0;}
  body:has(.consult-bar-02) {padding-bottom:340px;}
 }
+
+/* Hero UI only: retain existing images, timer, dot generation and handlers. */
+.hero .watch,.hero .hero-prev,.hero .hero-next,.hero .hero-page,.hero .hero-pause {display:none!important;}
+.hero .hero-rolling {position:absolute;left:50vw;right:auto;top:auto;bottom:120px;transform:translateX(-50%);width:max-content;max-width:none;display:flex;gap:0;flex-wrap:nowrap;padding:0;margin:0;border:0;background:none;z-index:2;}
+.hero .hero-rolling[hidden] {display:none;}
+.hero .hero-dots {display:flex;align-items:center;justify-content:center;gap:18px;padding:0;margin:0;background:none;border:0;}
+.hero .hero-dots button {display:block;width:10px;height:10px;padding:0;border:1px solid #e8def380;border-radius:50%;background:#eee5f73d;opacity:1;}
+.hero .hero-dots button[aria-pressed=true] {background:#e5d2ff;border-color:#f3eaff;}
+.hero .hero-dots button::before {inset:-17px;}
+.hero .hero-dots button:focus-visible {outline:2px solid #fff;outline-offset:7px;}
+@media(max-width:1180px) and (min-width:761px){.hero .hero-rolling {bottom:210px;}}
+/* Existing mobile image occupies y=100..360; dots sit inside its lower edge. */
+@media(max-width:760px){.hero .hero-rolling {top:326px;bottom:auto;}}
