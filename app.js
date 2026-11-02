@@ -249,9 +249,59 @@
   $('#map-link').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('서울특별시 중구 명동8나길 9');
 
   // No scroll interception, long sticky section or perpetual animation loop.
+  // Header-only scroll state. Direction travel accumulates to reject wheel jitter.
+  const scrollHeader = $('.site-header');
+  const mobileMenu = $('#mobile-menu');
+  let headerY = Math.max(0, scrollY), headerDirection = 0, headerTravel = 0;
+  let headerState = headerY <= 2 ? 'top-transparent' : 'scroll-visible';
+  let headerRestoring = true, headerUserScroll = false;
+  // Browser history restoration and layout anchoring are not scroll intent.
+  addEventListener('wheel', () => { headerUserScroll = true; }, {passive:true});
+  addEventListener('touchmove', () => { headerUserScroll = true; }, {passive:true});
+  addEventListener('keydown', event => {
+    if (['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(event.key)) headerUserScroll = true;
+  });
+  addEventListener('pointerdown', event => {
+    if (event.button === 1 || event.clientX >= document.documentElement.clientWidth - 20) headerUserScroll = true;
+  }, {passive:true});
+  function paintHeader() {
+    const menuOpen = !panel.hidden || mobileMenu.open;
+    const keyboardFocus = scrollHeader.contains(document.activeElement) && document.activeElement.matches(':focus-visible');
+    const state = menuOpen ? 'menu-open' : keyboardFocus && headerState === 'scroll-hidden' ? 'scroll-visible' : headerState;
+    scrollHeader.dataset.headerState = state;
+    scrollHeader.inert = state === 'scroll-hidden';
+  }
+  function updateHeader() {
+    const y = Math.max(0, Math.min(scrollY, document.documentElement.scrollHeight - innerHeight));
+    const delta = y - headerY;
+    headerY = y;
+    if (y <= 2) { headerState = 'top-transparent'; headerTravel = 0; headerDirection = 0; }
+    else if (headerRestoring || !headerUserScroll) headerState = 'scroll-visible';
+    else if (delta !== 0) {
+      const direction = Math.sign(delta);
+      if (direction !== headerDirection) { headerDirection = direction; headerTravel = 0; }
+      headerTravel += Math.abs(delta);
+      if (headerTravel >= 12) headerState = direction > 0 ? 'scroll-hidden' : 'scroll-visible';
+    }
+    paintHeader();
+  }
+  new MutationObserver(paintHeader).observe(panel, {attributes:true, attributeFilter:['hidden']});
+  new MutationObserver(paintHeader).observe(mobileMenu, {attributes:true, attributeFilter:['open']});
+  scrollHeader.addEventListener('focusin', paintHeader);
+  scrollHeader.addEventListener('focusout', () => requestAnimationFrame(paintHeader));
+  function restoreHeader() {
+    headerY = Math.max(0, scrollY); headerDirection = 0; headerTravel = 0;
+    headerState = headerY <= 2 ? 'top-transparent' : 'scroll-visible'; paintHeader();
+  }
+  function settleHeader() {
+    headerRestoring = true; headerUserScroll = false; restoreHeader();
+    requestAnimationFrame(() => requestAnimationFrame(() => { restoreHeader(); headerRestoring = false; }));
+  }
+  ['pageshow','popstate','hashchange'].forEach(name => addEventListener(name, settleHeader));
+  settleHeader();
   let queued = false;
   function onFrame() {
-    queued = false; $('.site-header').classList.toggle('is-scrolled', scrollY > 100);
+    queued = false; updateHeader();
     const hero = $('.hero'); const rect = hero.getBoundingClientRect();
     if (motion.matches) $('.hero-photo').style.transform = 'none';
     else if (rect.bottom > 0 && rect.top < innerHeight) $('.hero-photo').style.transform = `translateY(${-rect.top * .22}px)`;

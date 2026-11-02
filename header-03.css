@@ -106,3 +106,19 @@
 @media(prefers-reduced-motion:reduce){.quick-panel,.quick-label {transition:none!important;}}
 
 .header-country svg {width:27px;height:27px;display:block;}
+
+/* Scroll revision 3: background/state only; existing layout remains unchanged. */
+.site-header,.site-header.is-scrolled {
+ background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;
+ border-bottom-color:transparent;box-shadow:none;
+ transform:translateY(0);transition:transform 300ms ease-out;
+}
+.site-header[data-header-state="scroll-visible"],
+.site-header[data-header-state="menu-open"] {
+ background:rgba(36,30,44,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.site-header[data-header-state="scroll-hidden"] {
+ transform:translateY(-100%);pointer-events:none;visibility:hidden;
+ transition:transform 300ms ease-out,visibility 0s 300ms;
+}
+@media(prefers-reduced-motion:reduce){.site-header,.site-header.is-scrolled {transition:none!important;}}
