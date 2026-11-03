@@ -118,7 +118,7 @@
 
 /* DU-inspired consultation bar: PC presentation only; existing semantics/JS retained. */
 @media(min-width:1181px){
- .consult-bar.consult-bar-02 {left:50vw;right:auto;width:min(1640px,calc(100% - 128px));transform:translateX(-50%);padding:14px 20px 10px;border-radius:30px;background:rgba(229,224,218,.30);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 8px 28px #2018261a,inset 0 1px 0 #ffffff33;color:#3e3545;text-shadow:none;}
+ .consult-bar.consult-bar-02 {left:50vw;right:auto;width:min(1640px,calc(100% - 128px));transform:translateX(-50%);padding:14px 20px 10px;border-radius:30px;background:rgba(36,30,44,.15);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 8px 28px #2018261a,inset 0 1px 0 #ffffff33;color:#3e3545;text-shadow:none;}
  .consult-bar-02 .bar-desktop {grid-template-columns:140px minmax(100px,1fr) minmax(110px,1fr) minmax(120px,1fr) max-content max-content 130px;gap:12px;}
  .consult-bar-02 .db-brand {color:#3e3545;border-color:#75697944;}
  .consult-bar-02 .db-field {background:#fff;border-color:#e4dfe7;box-shadow:0 2px 5px #30243a10;color:#716775;}
@@ -137,3 +137,12 @@
 
 /* Keep glass-bar lettering legible over both photographs and pale sections. */
 @media(min-width:1181px){.consult-bar.consult-bar-02 .db-brand,.consult-bar.consult-bar-02 .db-consent,.consult-bar.consult-bar-02 .db-preview-note{color:#fff;text-shadow:0 1px 3px #201826,0 0 2px #201826}}
+
+/* Requested consultation hints only; entered/selected text keeps its existing color. */
+@media(min-width:1181px){
+ .consult-bar-02 .db-field input::placeholder{color:#6A17B9;opacity:1}
+ .consult-bar-02 .db-field select:has(option:checked[value=""]){color:#6A17B9}
+ .consult-bar-02 .db-brand span{padding-left:0;text-align:center;letter-spacing:3px}
+}
+
+@media(min-width:1181px){.consult-bar-02 .db-wordmark{display:inline-block;width:max-content}}

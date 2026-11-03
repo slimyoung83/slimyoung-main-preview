@@ -6,12 +6,11 @@
 #philosophy-doctor .s4-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,transparent 30%,#19151e55 51%,#18131ee8 100%)}
 #philosophy-doctor .s4-copy{position:relative;margin-left:50%;width:43%;min-height:1150px;padding:0}
 #philosophy-doctor h2{position:absolute;top:220px;left:0;margin:0;font-family:'Noto Serif KR',Georgia,serif;font-weight:400;font-size:clamp(28px,2.65vw,53px);line-height:1.65;letter-spacing:-1.4px;word-break:keep-all}
-#philosophy-doctor .s4-stats{position:absolute;top:530px;left:0;right:0;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+#philosophy-doctor .s4-stats{position:absolute;top:610px;left:12%;right:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px}
 #philosophy-doctor .s4-stat p{font-size:19px;margin:0 0 22px;color:#e3d7eb;line-height:1.6}
 #philosophy-doctor .s4-stat strong{display:block;font:400 27px/1.5 'Noto Sans KR',sans-serif;letter-spacing:-1px;color:#e4cff2}
 #philosophy-doctor .s4-stat strong.s4-design-number{font:400 clamp(56px,4.8vw,94px)/1.1 Georgia,serif;letter-spacing:-3px;font-variant-numeric:tabular-nums}
 #philosophy-doctor .s4-stat strong small{display:block;font:400 22px/1.8 'Noto Sans KR',sans-serif;letter-spacing:0;color:#faf6fc;margin-top:16px}
-#philosophy-doctor .s4-disclosure{grid-column:1/-1;font-size:13px;color:#c9bed2;line-height:1.8;margin:0}
 #philosophy-doctor.s4-enhanced h2{opacity:0;transition:opacity 1.4s ease}
 #philosophy-doctor.s4-enhanced .s4-stats{opacity:0;transition:opacity .7s ease}
 #philosophy-doctor.s4-stats-visible .s4-stats,#philosophy-doctor.s4-philosophy-visible h2{opacity:1}
