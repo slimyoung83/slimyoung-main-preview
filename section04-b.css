@@ -1,0 +1,21 @@
+/* Section 04: ordinary document flow, no sticky or transform animation. */
+#philosophy-doctor.s4-cinema{position:relative;background:#201b27;color:#f7f2f9;scroll-margin-top:0}
+#philosophy-doctor .s4-stage{position:relative;min-height:1150px;isolation:isolate;overflow:hidden}
+#philosophy-doctor .s4-image{position:absolute;inset:0;z-index:-2}
+#philosophy-doctor .s4-image img{display:block;width:100%;height:100%;object-fit:cover;object-position:34% center}
+#philosophy-doctor .s4-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,transparent 30%,#19151e55 51%,#18131ee8 100%)}
+#philosophy-doctor .s4-copy{position:relative;margin-left:50%;width:43%;min-height:1150px;padding:0}
+#philosophy-doctor h2{position:absolute;top:220px;left:0;margin:0;font-family:'Noto Serif KR',Georgia,serif;font-weight:400;font-size:clamp(28px,2.65vw,53px);line-height:1.65;letter-spacing:-1.4px;word-break:keep-all}
+#philosophy-doctor .s4-stats{position:absolute;top:530px;left:0;right:0;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+#philosophy-doctor .s4-stat p{font-size:19px;margin:0 0 22px;color:#e3d7eb;line-height:1.6}
+#philosophy-doctor .s4-stat strong{display:block;font:400 27px/1.5 'Noto Sans KR',sans-serif;letter-spacing:-1px;color:#e4cff2}
+#philosophy-doctor .s4-stat strong.s4-design-number{font:400 clamp(56px,4.8vw,94px)/1.1 Georgia,serif;letter-spacing:-3px;font-variant-numeric:tabular-nums}
+#philosophy-doctor .s4-stat strong small{display:block;font:400 22px/1.8 'Noto Sans KR',sans-serif;letter-spacing:0;color:#faf6fc;margin-top:16px}
+#philosophy-doctor .s4-disclosure{grid-column:1/-1;font-size:13px;color:#c9bed2;line-height:1.8;margin:0}
+#philosophy-doctor.s4-enhanced h2{opacity:0;transition:opacity 1.4s ease}
+#philosophy-doctor.s4-enhanced .s4-stats{opacity:0;transition:opacity .7s ease}
+#philosophy-doctor.s4-stats-visible .s4-stats,#philosophy-doctor.s4-philosophy-visible h2{opacity:1}
+#philosophy-doctor .pc-doctor-access{display:none!important}
+@media(max-width:1100px){#philosophy-doctor .s4-copy{margin-left:44%;width:48%}#philosophy-doctor h2{font-size:32px}#philosophy-doctor .s4-stat p{font-size:15px}#philosophy-doctor .s4-stat strong{font-size:22px}}
+@media(max-width:760px){#philosophy-doctor .s4-stage{padding-top:52svh;min-height:1050px}#philosophy-doctor .s4-image{height:52svh;bottom:auto}#philosophy-doctor .s4-image img{object-position:23% center}#philosophy-doctor .s4-shade{background:linear-gradient(180deg,transparent 28%,#201b2755 43%,#201b27 52%)}#philosophy-doctor .s4-copy{margin:0 7%;width:86%;min-height:650px}#philosophy-doctor h2{top:15px;font-size:27px}#philosophy-doctor .s4-stats{top:220px;gap:15px}#philosophy-doctor .s4-stat strong.s4-design-number{font-size:52px}#philosophy-doctor .s4-stat strong{font-size:19px}}
+@media(prefers-reduced-motion:reduce){#philosophy-doctor.s4-enhanced h2,#philosophy-doctor.s4-enhanced .s4-stats{opacity:1;transition:none}}
