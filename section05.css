@@ -1,20 +1,16 @@
-#before-after.s5-gallery{background:#fff;color:#28222d;padding:110px 0 100px;overflow:hidden;scroll-margin-top:0}
+#before-after.s5-gallery{background:#fff;color:#28222d;padding:40px 0 40px;overflow:hidden;scroll-margin-top:0}
 #before-after .s5-heading{position:relative;text-align:center;max-width:1640px;margin:0 auto;padding:0 100px}
-#before-after .s5-heading h2{margin:0;font:400 54px/1.45 'Noto Serif KR',Georgia,serif;letter-spacing:-2px;color:#29232e}
-#before-after .s5-heading p{margin:24px 0 0;font-size:17px;color:#766d7b}
-#before-after .s5-more{position:absolute;right:0;top:95px;background:none;border:0;border-bottom:1px solid #82758c;padding:10px 0;color:#44384f;opacity:1;font-size:13px;letter-spacing:1px;cursor:default}
-#before-after .s5-disclaimer{text-align:center;font-size:12px;color:#76617f;margin:30px 20px 36px}
-#before-after .s5-carousel{position:relative;--s5-card:660px;--s5-gap:30px}
+#before-after .s5-heading h2{margin:0;font:400 48px/1.35 'Noto Serif KR',Georgia,serif;letter-spacing:-2px;color:#29232e}
+#before-after .s5-heading p{margin:14px 0 0;font-size:17px;color:#766d7b}
+#before-after .s5-more{position:absolute;right:0;top:65px;background:none;border:0;border-bottom:1px solid #82758c;padding:10px 0;color:#44384f;opacity:1;font-size:13px;letter-spacing:1px;cursor:default}
+#before-after .s5-carousel{position:relative;--s5-card:990px;--s5-gap:36px;margin-top:24px}
 #before-after .s5-viewport{overflow:hidden;width:100%;padding:0 0 8px}
 #before-after .s5-track{display:flex;gap:var(--s5-gap);width:max-content;margin-left:50%;transform:translateX(-50%);will-change:transform}
 #before-after .s5-card{flex:0 0 var(--s5-card);width:var(--s5-card);margin:0;opacity:.72;transition:opacity .6s ease}
 #before-after .s5-card.is-center{opacity:1}
 #before-after .s5-card img{display:block;width:100%;height:auto;aspect-ratio:1808/870;object-fit:contain;border-radius:22px;filter:none}
-#before-after .s5-card figcaption{text-align:center;padding:22px 0 0;font-size:20px;font-weight:700;color:#302635}
-#before-after .s5-card figcaption small{display:block;margin-top:9px;font-size:14px;font-weight:400;color:#82748c}
-#before-after .s5-prev,#before-after .s5-next{position:absolute;top:140px;border:1px solid #ded8e1;width:50px;height:50px;border-radius:50%;background:#fffffff0;color:#43324d;font-size:24px;cursor:pointer}
-#before-after .s5-prev{left:calc(50% - 365px)}#before-after .s5-next{right:calc(50% - 365px)}
-#before-after .s5-pause{display:block;margin:32px auto 0;background:none;border:0;color:#81718b;font-size:12px;text-decoration:underline;text-underline-offset:5px;cursor:pointer}
+#before-after .s5-prev,#before-after .s5-next{position:absolute;top:calc(50% - 25px);border:1px solid #ded8e1;width:50px;height:50px;border-radius:50%;background:#fffffff0;color:#43324d;font-size:24px;cursor:pointer}
+#before-after .s5-prev{left:calc(50% - 513px)}#before-after .s5-next{right:calc(50% - 513px)}
 #before-after .s5-legacy[hidden]{display:none!important}
 @media(max-width:760px){#before-after.s5-gallery{padding:70px 0}#before-after .s5-heading{padding:0 20px}#before-after .s5-heading h2{font-size:32px}#before-after .s5-heading p{font-size:14px}#before-after .s5-more{position:static;margin-top:20px}#before-after .s5-carousel{--s5-card:82vw;--s5-gap:16px}#before-after .s5-prev{left:3vw}#before-after .s5-next{right:3vw}#before-after .s5-prev,#before-after .s5-next{top:16vw}}
 @media(prefers-reduced-motion:reduce){#before-after .s5-track,#before-after .s5-card{transition:none!important}}
