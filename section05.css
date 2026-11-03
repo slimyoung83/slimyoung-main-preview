@@ -14,12 +14,3 @@
 #before-after .s5-legacy[hidden]{display:none!important}
 @media(max-width:760px){#before-after.s5-gallery{padding:70px 0}#before-after .s5-heading{padding:0 20px}#before-after .s5-heading h2{font-size:32px}#before-after .s5-heading p{font-size:14px}#before-after .s5-more{position:static;margin-top:20px}#before-after .s5-carousel{--s5-card:82vw;--s5-gap:16px}#before-after .s5-prev{left:3vw}#before-after .s5-next{right:3vw}#before-after .s5-prev,#before-after .s5-next{top:16vw;transform:none}}
 @media(prefers-reduced-motion:reduce){#before-after .s5-track,#before-after .s5-card{transition:none!important}}
-
-/* SECTION 05 only: stable-height perspective stage and reusable cyclic cards. */
-#before-after .s5-viewport{touch-action:pan-y;cursor:grab;user-select:none}
-#before-after .s5-viewport.is-dragging{cursor:grabbing}
-#before-after .s5-track{display:block;position:relative;width:100%;height:calc(var(--s5-card) * .4811946903);margin-left:0;transform:none;perspective:1800px;transform-style:preserve-3d;will-change:auto}
-#before-after .s5-card{position:absolute;left:50%;top:0;opacity:1;backface-visibility:hidden;transform-origin:center;transition:transform 650ms cubic-bezier(.22,.61,.36,1),opacity 650ms ease;will-change:transform}
-#before-after .s5-card img{pointer-events:none;-webkit-user-drag:none}
-#before-after .s5-track.is-instant .s5-card,#before-after .s5-card.is-reset{transition:none!important}
-#before-after .s5-prev,#before-after .s5-next{z-index:10}
