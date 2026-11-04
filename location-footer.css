@@ -93,6 +93,7 @@
 .location-business strong { font-size:20px; font-weight:700; }
 .location-footer .location-business p:first-child,.location-footer-links { min-height:31px; }
 .location-footer-links { align-items:center; }
+.location-footer .location-footer-links a { font-size:16px; font-weight:500; }
 .location-footer-links { display:flex; flex-wrap:wrap; gap:12px 24px; }
 .location-social { display:inline-flex; align-items:center; gap:10px; margin-top:20px; }
 .location-social svg { width:24px; height:auto; flex:none; }
