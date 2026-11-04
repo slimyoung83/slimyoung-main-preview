@@ -1,0 +1,65 @@
+#visit {
+  display:block;
+  background:#faf8f5;
+  color:#241e2c;
+  padding:clamp(64px,6vw,108px) max(6%,calc((100% - 1500px)/2));
+}
+.location-layout {
+  display:grid;
+  grid-template-columns:minmax(0,55fr) minmax(0,45fr);
+  align-items:center;
+  gap:clamp(32px,5vw,88px);
+}
+.location-map {
+  display:grid;
+  place-content:center;
+  justify-items:center;
+  gap:14px;
+  min-height:420px;
+  padding:24px;
+  text-align:center;
+  border:1px solid #8151ac30;
+  border-radius:20px;
+  background:linear-gradient(135deg,#f4eef8,#ece3ef);
+  color:#654087;
+}
+.location-map:hover,.location-links a:hover { background:#e9dcef; }
+.location-info h2 { margin:0 0 24px; font:clamp(48px,5vw,82px)/1 Georgia,serif; }
+.location-info h3 { margin:0 0 12px; font-size:25px; }
+.location-info address { font-style:normal; line-height:1.7; }
+.location-hours { margin:20px 0; }
+.location-hours div { display:grid; grid-template-columns:9em 1fr; gap:8px; margin:6px 0; }
+.location-hours dd { margin:0; }
+.location-phone { color:#8151ac; font-size:23px; font-weight:700; }
+.location-links { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
+.location-links a {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid #8151ac45;
+  border-radius:999px;
+  padding:10px 14px;
+  color:#654087;
+}
+.location-footer.p8-footer {
+  display:block;
+  background:#201c25;
+  color:#d9d1de;
+  padding:52px max(6%,calc((100% - 1500px)/2)) 58px;
+}
+.location-footer-inner {
+  display:grid;
+  grid-template-columns:minmax(145px,1fr) minmax(0,2fr) auto;
+  align-items:start;
+  gap:32px;
+}
+.location-footer .brand,.location-business strong { color:#fff; }
+.location-business p { margin:0 0 8px; line-height:1.5; }
+.location-business small { display:block; margin-top:18px; color:#c3b7ca; }
+.location-footer-links { display:grid; gap:12px; }
+.location-footer-links a:hover,.location-business a:hover { text-decoration:underline; }
+#visit a:focus-visible,.location-footer a:focus-visible { outline:2px solid #a875cf; outline-offset:4px; }
+@media(max-width:800px) {
+  .location-layout,.location-footer-inner { grid-template-columns:minmax(0,1fr); }
+  .location-map { min-height:260px; }
+}

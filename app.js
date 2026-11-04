@@ -246,7 +246,6 @@
 
   $$('[data-consult]').forEach(button => button.addEventListener('click', () => show($('#consult-dialog'))));
   $('#consult-location').addEventListener('click', () => close($('#consult-dialog')));
-  $('#map-link').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('서울특별시 중구 명동8나길 9');
 
   // No scroll interception, long sticky section or perpetual animation loop.
   // Header-only scroll state. Direction travel accumulates to reject wheel jitter.
