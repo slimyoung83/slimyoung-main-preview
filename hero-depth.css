@@ -3,5 +3,5 @@
 /* Native scrolling: section 02 covers the sticky hero within their shared bounds. */
 .hero-youtube-stack{position:relative;isolation:isolate}
 .hero-youtube-stack>.hero{position:sticky;top:0;z-index:0}
-.hero-youtube-stack>#philosophy{position:relative;z-index:1;background:var(--charcoal,#241e2c)}
+.hero-youtube-stack>#philosophy{position:relative;z-index:1;background:#302438}
 @media(prefers-reduced-motion:reduce){.hero-youtube-stack>.hero{position:relative}}

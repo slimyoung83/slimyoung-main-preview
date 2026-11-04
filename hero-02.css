@@ -147,4 +147,11 @@
 
 @media(min-width:1181px){.consult-bar-02 .db-wordmark{display:inline-block;width:max-content}}
 
-.consult-bar.consult-bar-02 .db-brand { color:#6A17B9; }
+.consult-bar.consult-bar-02 .db-brand {
+ color:#fff;
+ text-shadow:0 0 1px #6A17B9,0 0 2px #6A17B9;
+}
+@supports (-webkit-text-stroke:1px #6A17B9) {
+ .consult-bar.consult-bar-02 .db-brand {-webkit-text-stroke:1px #6A17B9;paint-order:stroke fill;text-shadow:none}
+ .consult-bar.consult-bar-02 .db-brand span {-webkit-text-stroke:.6px #6A17B9}
+}
