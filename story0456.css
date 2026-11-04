@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
 .doctor-design-stack{position:relative;isolation:isolate}
 .doctor-design-stack>#philosophy-doctor{position:sticky;top:0;z-index:0}
 #philosophy-doctor .s4-stage{height:100svh;min-height:850px}
@@ -6,7 +6,7 @@
 #philosophy-doctor .s4-philosophy{position:absolute;top:24%;left:0;right:0}
 #philosophy-doctor h2{position:static}
 #philosophy-doctor .s4-body{margin:34px 0 0;font:400 23px/1.9 'Noto Sans KR',sans-serif;letter-spacing:-.6px;color:#eee7f3;word-break:keep-all}
-#philosophy-doctor .s4-signature{font:400 46px/1.4 'Nanum Pen Script','Noto Serif KR',serif;color:#e1c9ee;margin:34px 12px 0 0;text-align:right}
+#philosophy-doctor .s4-signature{font:400 46px/1.4 'Allura','Segoe Script','Brush Script MT',cursive;color:#e1c9ee;margin:34px 12px 0 0;text-align:right}
 #philosophy-doctor.s4-enhanced h2{opacity:1;transition:none}
 #philosophy-doctor.s4-enhanced .s4-philosophy{opacity:0;transition:opacity 1.4s ease}
 #philosophy-doctor.s4-philosophy-visible .s4-philosophy{opacity:1}
