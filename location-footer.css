@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap');
+
 #visit,.location-footer.p8-footer {
   --location-gutter:max(5.35%,calc((100% - 1720px)/2));
   padding-inline:var(--location-gutter);
@@ -71,17 +73,29 @@
 }
 .location-footer-inner {
   display:grid;
-  grid-template-columns:minmax(0,21fr) minmax(0,34fr) minmax(0,45fr);
+  grid-template-columns:minmax(0,21fr) minmax(0,32fr) minmax(0,47fr);
   align-items:start;
 }
 .location-footer .brand { justify-self:start; font-size:clamp(32px,3vw,57px); }
 .location-footer .brand span { font-size:clamp(10px,.85vw,16px); letter-spacing:.42em; }
 .location-footer .brand,.location-business strong,.location-footer-nav { color:#fff; }
 .location-business,.location-footer-nav { padding-inline:clamp(18px,3vw,55px); border-inline-start:1px solid #ffffff42; }
-.location-footer-nav { padding-inline-end:0; }
-.location-business p { margin:0 0 7px; line-height:1.5; }
+.location-business,.location-footer-nav {
+  font-family:"Noto Sans KR",sans-serif;
+  font-size:16px;
+  font-weight:500;
+  line-height:1.55;
+}
+.location-footer-nav { padding-inline-start:clamp(18px,2vw,36px); padding-inline-end:0; }
+.location-footer .location-business p { margin:0 0 8px; font-size:inherit; color:inherit; }
+.location-footer .location-business p:last-child { margin-bottom:0; }
+.location-footer .location-business p:nth-child(3) { font-size:15px; font-weight:400; }
+.location-business strong { font-size:20px; font-weight:700; }
+.location-footer .location-business p:first-child,.location-footer-links { min-height:31px; }
+.location-footer-links { align-items:center; }
 .location-footer-links { display:flex; flex-wrap:wrap; gap:12px 24px; }
-.location-social { display:inline-flex; align-items:center; gap:10px; margin-top:26px; }
+.location-social { display:inline-flex; align-items:center; gap:10px; margin-top:20px; }
+.location-social svg { width:24px; height:auto; flex:none; }
 .location-footer a:hover { text-decoration:underline; }
 .location-footer.p8-footer > .location-copyright { display:block; margin:34px 0 0; padding-top:22px; border-top:1px solid #ffffff54; }
 #visit a:focus-visible,.location-footer a:focus-visible { outline:2px solid #a875cf; outline-offset:4px; }
