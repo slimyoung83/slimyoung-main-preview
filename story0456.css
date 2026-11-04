@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
 .doctor-design-stack{position:relative;isolation:isolate}
 .doctor-design-stack>#philosophy-doctor{position:sticky;top:0;z-index:0}
 #philosophy-doctor .s4-stage{height:100svh;min-height:850px}
@@ -6,7 +5,7 @@
 #philosophy-doctor .s4-philosophy{position:absolute;top:24%;left:0;right:0}
 #philosophy-doctor h2{position:static}
 #philosophy-doctor .s4-body{margin:34px 0 0;font:400 23px/1.9 'Noto Sans KR',sans-serif;letter-spacing:-.6px;color:#eee7f3;word-break:keep-all}
-#philosophy-doctor .s4-signature{font:400 46px/1.4 'Allura','Segoe Script','Brush Script MT',cursive;color:#e1c9ee;margin:34px 12px 0 0;text-align:right}
+#philosophy-doctor .s4-signature{margin:22px 12px 0 auto;width:min(100%,290px)}
 #philosophy-doctor.s4-enhanced h2{opacity:1;transition:none}
 #philosophy-doctor.s4-enhanced .s4-philosophy{opacity:0;transition:opacity 1.4s ease}
 #philosophy-doctor.s4-philosophy-visible .s4-philosophy{opacity:1}
@@ -15,8 +14,8 @@
 .line-design-section{position:relative;z-index:1;margin:0;padding:0;background:#281d30;line-height:0;scroll-margin-top:0}
 .line-design-section>img{display:block;width:100%;height:auto;object-fit:contain;transform:none}
 .legacy-design-archive[hidden]{display:none!important}
-@media(max-width:760px){.doctor-design-stack>#philosophy-doctor{position:relative}#philosophy-doctor .s4-stage{height:auto;min-height:1050px}#philosophy-doctor .s4-copy{height:550px}#philosophy-doctor .s4-philosophy{top:20px}#philosophy-doctor .s4-body{font-size:15px}#philosophy-doctor .s4-signature{font-size:35px}}
+@media(max-width:760px){.doctor-design-stack>#philosophy-doctor{position:relative}#philosophy-doctor .s4-stage{height:auto;min-height:1050px}#philosophy-doctor .s4-copy{height:550px}#philosophy-doctor .s4-philosophy{top:20px}#philosophy-doctor .s4-body{font-size:15px}#philosophy-doctor .s4-signature{width:min(100%,230px)}}
 @media(prefers-reduced-motion:reduce){.doctor-design-stack>#philosophy-doctor{position:relative}#philosophy-doctor.s4-enhanced .s4-philosophy,#philosophy-doctor.s4-enhanced .s4-signature{opacity:1;transition:none}}
 
-#philosophy-doctor .s4-signature span {position:relative;display:inline-block;transform:rotate(-6deg);}
-#philosophy-doctor .s4-signature span::after {content:'';position:absolute;inset:auto 0 -4px 8%;height:9px;border-top:1px solid #d0a7e4;border-radius:55% 50% 0 0;}
+
+#philosophy-doctor .s4-signature img {display:block;width:100%;height:auto;}

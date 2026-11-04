@@ -2,7 +2,6 @@
 window.SLIMYOUNG_PC_REVIEW_GALLERY = {
   "viewMoreUrl": null,
   "showPlaceholders": false,
-  "notice": "콘셉트 갤러리",
   "topItems": [
     {
       "column": 1,
