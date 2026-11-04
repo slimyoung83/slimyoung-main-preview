@@ -17,3 +17,6 @@
 .legacy-design-archive[hidden]{display:none!important}
 @media(max-width:760px){.doctor-design-stack>#philosophy-doctor{position:relative}#philosophy-doctor .s4-stage{height:auto;min-height:1050px}#philosophy-doctor .s4-copy{height:550px}#philosophy-doctor .s4-philosophy{top:20px}#philosophy-doctor .s4-body{font-size:15px}#philosophy-doctor .s4-signature{font-size:35px}}
 @media(prefers-reduced-motion:reduce){.doctor-design-stack>#philosophy-doctor{position:relative}#philosophy-doctor.s4-enhanced .s4-philosophy,#philosophy-doctor.s4-enhanced .s4-signature{opacity:1;transition:none}}
+
+#philosophy-doctor .s4-signature span {position:relative;display:inline-block;transform:rotate(-6deg);}
+#philosophy-doctor .s4-signature span::after {content:'';position:absolute;inset:auto 0 -4px 8%;height:9px;border-top:1px solid #d0a7e4;border-radius:55% 50% 0 0;}

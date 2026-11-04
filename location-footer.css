@@ -25,13 +25,9 @@
   border-radius:16px;
   background:#f2f0ec;
 }
-.location-map iframe { width:100%; height:100%; position:absolute; inset:0; border:0; pointer-events:none; }
-.location-map-open { position:absolute; inset:0; }
+.location-map-open { display:block; position:absolute; inset:0; }
+.location-map-open img { display:block; width:100%; height:100%; object-fit:contain; }
 .location-map-open:focus-visible { outline-offset:-4px !important; }
-.location-map-label,.location-map-marker,.location-map-credit { position:absolute; padding:6px 12px; }
-.location-map-label { top:14px; left:14px; background:#fff; color:#241e2c; border-radius:8px; font-weight:700; }
-.location-map-marker { top:50%; left:50%; transform:translate(-50%,-50%); border-radius:999px; background:#8151ac; color:#fff; font-weight:700; white-space:nowrap; }
-.location-map-credit { bottom:0; right:0; background:#fff; color:#241e2c; font-size:11px; }
 .location-links a:hover { background:#f4eff7; }
 .location-info h2 { margin:0 0 22px; font:clamp(44px,4vw,72px)/1 Georgia,serif; }
 .location-info h3 { margin:0 0 14px; font-size:clamp(24px,2vw,36px); }

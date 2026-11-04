@@ -2,7 +2,7 @@
 window.SLIMYOUNG_PC_REVIEW_GALLERY = {
   "viewMoreUrl": null,
   "showPlaceholders": false,
-  "notice": "콘셉트 이미지 · 실제 환자 후기나 시술 결과가 아닙니다.",
+  "notice": "콘셉트 갤러리",
   "topItems": [
     {
       "column": 1,
