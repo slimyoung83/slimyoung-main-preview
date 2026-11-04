@@ -79,7 +79,7 @@
 .location-footer-links { display:flex; flex-wrap:wrap; gap:12px 24px; }
 .location-social { display:inline-flex; align-items:center; gap:10px; margin-top:26px; }
 .location-footer a:hover { text-decoration:underline; }
-.location-footer .location-copyright { margin:34px 0 0; padding-top:22px; border-top:1px solid #ffffff54; }
+.location-footer.p8-footer > .location-copyright { display:block; margin:34px 0 0; padding-top:22px; border-top:1px solid #ffffff54; }
 #visit a:focus-visible,.location-footer a:focus-visible { outline:2px solid #a875cf; outline-offset:4px; }
 @media(max-width:900px) {
   .location-layout,.location-footer-inner { grid-template-columns:minmax(0,1fr); gap:26px; }
