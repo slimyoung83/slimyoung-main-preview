@@ -14,3 +14,12 @@
 #before-after .s5-legacy[hidden]{display:none!important}
 @media(max-width:760px){#before-after.s5-gallery{padding:70px 0}#before-after .s5-heading{padding:0 20px}#before-after .s5-heading h2{font-size:32px}#before-after .s5-heading p{font-size:14px}#before-after .s5-more{position:static;margin-top:20px}#before-after .s5-carousel{--s5-card:82vw;--s5-gap:16px}#before-after .s5-prev{left:3vw}#before-after .s5-next{right:3vw}#before-after .s5-prev,#before-after .s5-next{top:16vw;transform:none}}
 @media(prefers-reduced-motion:reduce){#before-after .s5-track,#before-after .s5-card{transition:none!important}}
+
+#before-after .s5-carousel { --s5-card: min(1080px, 82vw); }
+#before-after .s5-card { transform: scale(.8333333333); }
+#before-after .s5-card.is-center { transform: scale(1); }
+#before-after .s5-track.is-moving .s5-card {
+  transition: transform 650ms cubic-bezier(.22,.61,.36,1), opacity 650ms ease;
+}
+#before-after .s5-controls { display:flex; justify-content:center; gap:14px; margin-top:8px; }
+#before-after .s5-controls button { position:static; transform:none; }
