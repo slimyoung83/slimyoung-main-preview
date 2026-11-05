@@ -159,6 +159,7 @@
 /* The first slide has its own lettering and artwork. */
 .hero:not(.has-models) .hero-photo {
   transform:none;
+  inset:0;
   background:#211927 url("assets/images/hero/line-design-retouched.png") left top / contain no-repeat;
 }
 .hero .hero-slides:has(img:first-child.is-active) { background:linear-gradient(180deg,#302437,#2a1d30 70%,#352341); }
