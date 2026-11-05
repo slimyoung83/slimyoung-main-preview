@@ -1,0 +1,4 @@
+/* Temporary visibility flag: remove section05-temporarily-hidden from body to restore SECTION 05. */
+body.section05-temporarily-hidden #expertise.line-design-section{display:none!important}
+/* Reuse the existing sticky stack; SECTION 06 now covers SECTION 04 without an empty SECTION 05 slot. */
+body.section05-temporarily-hidden .doctor-design-stack>#before-after{position:relative;z-index:1}

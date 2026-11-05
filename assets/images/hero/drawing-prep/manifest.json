@@ -1,0 +1,38 @@
+{
+  "source": "assets/images/hero/line-design-retouched.png",
+  "sourceSize": [
+    1980,
+    901
+  ],
+  "sourceSha256": "c4de3b59546f73eb85097dcc67296e294680427771539eb6dab922a40946e0fe",
+  "status": "partial; handwriting matte candidates only; clean base, hand and lines unavailable",
+  "layers": [
+    {
+      "file": "handwriting-top.png",
+      "x": 430,
+      "y": 195,
+      "width": 180,
+      "height": 78,
+      "method": "estimated white ink matte; original glyph raster, no new font",
+      "status": "candidate; edge alpha is estimated, not original source alpha"
+    },
+    {
+      "file": "handwriting-bottom.png",
+      "x": 458,
+      "y": 622,
+      "width": 162,
+      "height": 76,
+      "method": "estimated white ink matte; original glyph raster, no new font",
+      "status": "candidate; edge alpha is estimated, not original source alpha"
+    },
+    {
+      "file": "handwriting-right.png",
+      "x": 798,
+      "y": 382,
+      "width": 122,
+      "height": 77,
+      "method": "estimated white ink matte; original glyph raster, no new font",
+      "status": "candidate; edge alpha is estimated, not original source alpha"
+    }
+  ]
+}
