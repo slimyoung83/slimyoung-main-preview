@@ -47,7 +47,7 @@
   gap:12px;
   border:1px solid #8151ac8c;
   border-radius:999px;
-  padding:0 0 0 12px;
+  padding:0 3px 0 12px;
   color:#241e2c;
   font-weight:700;
 }
@@ -56,8 +56,8 @@
 .location-links a > span[aria-hidden] {
   display:grid;
   place-items:center;
-  width:42px;
-  height:42px;
+  width:36px;
+  height:36px;
   flex:none;
   border-radius:50%;
   background:#292231;
