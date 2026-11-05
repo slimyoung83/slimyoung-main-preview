@@ -93,7 +93,7 @@
       const box=document.querySelector('.hero-slides').getBoundingClientRect();
       const scale=Math.min(box.width/1980,box.height/901);
       overlay.style.width='1980px'; overlay.style.height='901px';
-      overlay.style.left='0px'; overlay.style.top=((box.height-901*scale)/2)+'px';
+      overlay.style.left='0px'; overlay.style.top='0px';
       overlay.style.transform='scale('+scale+')';
     }
     const layoutObserver=new ResizeObserver(alignStats);
