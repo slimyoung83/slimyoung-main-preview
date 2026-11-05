@@ -51,6 +51,54 @@
     return img;
   });
   Promise.all(frames.map(img => img.decode())).then(() => {
+    // Edit only the decoded hero copy. Original PNG and SECTION 05 stay untouched.
+    const artwork = frames[0];
+    const canvas = document.createElement('canvas');
+    canvas.width = artwork.naturalWidth; canvas.height = artwork.naturalHeight;
+    const ctx = canvas.getContext('2d', {willReadFrequently:true});
+    ctx.drawImage(artwork, 0, 0);
+    function restoreRect(x,y,w,h) {
+      const top = ctx.getImageData(x,y-4,w,1).data;
+      const bottom = ctx.getImageData(x,y+h+4,w,1).data;
+      const patch = ctx.createImageData(w,h);
+      for(let row=0;row<h;row++) for(let col=0;col<w;col++) {
+        const i=(row*w+col)*4, j=col*4, t=row/(h-1);
+        for(let c=0;c<3;c++) patch.data[i+c]=Math.round(top[j+c]*(1-t)+bottom[j+c]*t);
+        patch.data[i+3]=255;
+      }
+      ctx.putImageData(patch,x,y);
+    }
+    [[1008,590,190,52],[1252,590,193,52],[1508,590,169,52],[1280,550,132,34]].forEach(r=>restoreRect(...r));
+    artwork.src=canvas.toDataURL('image/png');
+    const overlay=document.createElement('div');
+    overlay.className='hero-live-stats';
+    overlay.innerHTML='<span class="hero-lifting-label">리프팅 시술건수</span>'+[12000,72000,2000].map((n,i)=>'<span class="hero-live-number stat-'+i+'"><span data-count="'+n+'">'+n.toLocaleString('en-US')+'</span><small>건+</small></span>').join('');
+    document.querySelector('.hero').append(overlay);
+    const countNodes=[...overlay.querySelectorAll('[data-count]')];
+    let countFrame=0;
+    function count(active) {
+      cancelAnimationFrame(countFrame); countFrame=0;
+      overlay.hidden=!active;
+      if(!active) return;
+      const start=performance.now();
+      function tick(now) {
+        const progress=reduced.matches?1:Math.min(1,(now-start)/2000);
+        const eased=1-Math.pow(1-progress,3);
+        countNodes.forEach(node=>node.textContent=Math.round(Number(node.dataset.count)*eased).toLocaleString('en-US'));
+        if(progress<1) countFrame=requestAnimationFrame(tick);
+      }
+      tick(start);
+    }
+    function alignStats() {
+      const box=document.querySelector('.hero-slides').getBoundingClientRect();
+      const scale=Math.min(box.width/1980,box.height/901);
+      overlay.style.width='1980px'; overlay.style.height='901px';
+      overlay.style.left='0px'; overlay.style.top=((box.height-901*scale)/2)+'px';
+      overlay.style.transform='scale('+scale+')';
+    }
+    const layoutObserver=new ResizeObserver(alignStats);
+    layoutObserver.observe(document.querySelector('.hero-slides')); alignStats();
+    reduced.addEventListener('change',()=>count(index===0));
     const container = document.querySelector('.hero-slides');
     const dots = document.querySelector('.hero-dots');
     const pause = document.querySelector('.hero-pause');
@@ -61,9 +109,10 @@
       button.addEventListener('click', () => { select(i, true); }); dots.append(button); return button;
     });
     function stop() { clearInterval(timer); timer = null; }
-    function schedule() { stop(); if (!paused && !reduced.matches && !document.hidden && onScreen && !interacting) timer = setInterval(() => select((index + 1) % models.length), 5000); }
+    function schedule() { stop(); if (!paused && !reduced.matches && !document.hidden && onScreen && !interacting) timer = setInterval(() => select((index + 1) % models.length), 10000); }
     function select(i, manual = false) {
       index = (i + models.length) % models.length;
+      count(index === 0);
       frames.forEach((img, n) => { img.classList.toggle('is-active', n === index); img.setAttribute('aria-hidden', String(n !== index)); });
       buttons.forEach((button, n) => button.setAttribute('aria-pressed', String(n === index)));
       document.querySelector('.hero-page').textContent = `${String(index + 1).padStart(2,'0')} / ${String(models.length).padStart(2,'0')}`;
@@ -79,7 +128,7 @@
     hero.addEventListener('focusin', () => { interacting = true; stop(); }); hero.addEventListener('focusout', event => { if (!hero.contains(event.relatedTarget)) { interacting = false; schedule(); } });
     document.addEventListener('visibilitychange', schedule); reduced.addEventListener('change', schedule);
     const observer = new IntersectionObserver(entries => { onScreen = entries[0].isIntersecting; schedule(); }, {threshold:.15}); observer.observe(hero); schedule();
-    addEventListener('pagehide', () => { stop(); observer.disconnect(); }, {once:true});
+    addEventListener('pagehide', () => { stop(); cancelAnimationFrame(countFrame); layoutObserver.disconnect(); observer.disconnect(); }, {once:true});
   }).catch(() => { state.textContent = '모델 이미지 파일 확인 필요 · 기존 배경 유지'; });
 })();
 

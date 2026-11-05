@@ -167,3 +167,13 @@
 .hero:has(.hero-slides img:first-child.is-active) .hero-copy { visibility:hidden; }
 .hero:not(.has-models) .hero-shade,
 .hero:has(.hero-slides img:first-child.is-active) .hero-shade { opacity:0; }
+
+/* Live figures align to the first PNG's 1980 by 901 contain rectangle. */
+.hero-live-stats{position:absolute;transform-origin:top left;pointer-events:none;z-index:1}
+.hero-live-stats[hidden]{display:none}
+.hero-live-number{position:absolute;top:590px;height:52px;display:flex;align-items:baseline;justify-content:center;color:#dea1f2;font:48px/1 Georgia,'Times New Roman',serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hero-live-number small{font:24px/1.2 Georgia,serif}
+.hero-live-number.stat-0{left:1008px;width:190px}
+.hero-live-number.stat-1{left:1252px;width:193px}
+.hero-live-number.stat-2{left:1508px;width:169px}
+.hero-lifting-label{position:absolute;left:1280px;top:550px;width:132px;height:34px;text-align:center;color:#f2edf4;font:20px/34px 'Noto Sans KR',sans-serif;white-space:nowrap}
