@@ -1,0 +1,49 @@
+{
+  "source": "assets/images/hero/line-design-retouched.png",
+  "sourceSize": [
+    1980,
+    901
+  ],
+  "sourceSha256": "c4de3b59546f73eb85097dcc67296e294680427771539eb6dab922a40946e0fe",
+  "completion": "partial, not animation-ready",
+  "cleanBase": {
+    "file": null,
+    "status": "blocked",
+    "reason": "occluded skin/background missing; glowing edge is composited into skin and garment"
+  },
+  "hand": {
+    "file": "drawing-hand-pen-candidate.png",
+    "x": 574,
+    "y": 480,
+    "width": 284,
+    "height": 305,
+    "zIndex": 30,
+    "alphaMethod": "manual polygon at 3x with antialiasing; original RGB pixels",
+    "status": "candidate; silhouette approximate",
+    "difference": "wrist ends at sleeve seam; sleeve is not a movable layer; matte edge may retain or omit original background",
+    "animationReady": false
+  },
+  "lines": {
+    "file": "drawing-lines-candidate.png",
+    "x": 380,
+    "y": 275,
+    "width": 420,
+    "height": 350,
+    "zIndex": 20,
+    "alphaMethod": "white ink estimated from local median background",
+    "status": "candidate; not a complete original matte",
+    "difference": "soft strokes and low contrast parts may be incomplete; fine skin texture may remain",
+    "animationReady": false,
+    "directionNotes": "visible arrows point toward upper-right; exact per-path start/end not recovered"
+  },
+  "glow": {
+    "file": null,
+    "status": "not separated",
+    "reason": "additive glow and original skin boundary not independently available"
+  },
+  "reassembly": {
+    "file": null,
+    "status": "not performed; no valid clean base"
+  },
+  "existingHandwriting": "Reuse ../assets/handwriting-*.png and phase1 manifest coordinates; edge alpha estimated."
+}

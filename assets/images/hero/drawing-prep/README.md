@@ -6,3 +6,8 @@ No clean base, transparent hand/pen layer, or skin/contour/glow layer has been c
 
 To restore SECTION 05, remove `section05-temporarily-hidden` from the body class in index.html and reload. The CSS and conditional script then leave the original 04→05→06 DOM order intact. While disabled, the existing SECTION 06 node is appended to the same sticky stack so it covers SECTION 04 directly without an empty slot.
 
+
+
+## Phase 2 — incomplete candidates
+
+See phase2/manifest-phase2.json. The extracted hand/pen silhouette is an approximate manual matte and has visible background fringes near fingers; its wrist is cut at the sleeve seam. The white-line matte is incomplete and has background/skin contamination. Neither candidate passed final quality review. No clean base or isolated glow was produced, and no full static reassembly was approved. The live hero remains unchanged. Existing handwriting files and phase-1 coordinates remain untouched.

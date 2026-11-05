@@ -34,5 +34,15 @@
       "method": "estimated white ink matte; original glyph raster, no new font",
       "status": "candidate; edge alpha is estimated, not original source alpha"
     }
-  ]
+  ],
+  "phase2": {
+    "manifest": "phase2/manifest-phase2.json",
+    "status": "partial candidates; rejected for final assembly",
+    "cleanBase": null,
+    "hand": "phase2/drawing-hand-pen-candidate.png",
+    "whiteLines": "phase2/drawing-lines-candidate.png",
+    "glow": null,
+    "reassembly": null,
+    "animationReady": false
+  }
 }
