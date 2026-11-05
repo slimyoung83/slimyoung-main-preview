@@ -51,7 +51,7 @@
   color:#241e2c;
   font-weight:700;
 }
-.location-link-label { display:inline-flex; align-items:center; gap:8px; }
+.location-link-label { display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:700; white-space:nowrap; }
 .location-link-label img { display:block; width:24px; height:24px; object-fit:contain; flex:none; }
 .location-links a > span[aria-hidden] {
   display:grid;

@@ -42,7 +42,7 @@
   const controls = document.querySelector('.hero-rolling');
   const state = document.querySelector('.hero-media-state');
   if (!Array.isArray(candidates) || candidates.length < 2) return;
-  const models = candidates.filter(item => item && item.approvedForPreview === true && item.alt && (/^\.\/model-\d+\.(?:jpg|jpeg|png|webp|avif)$/i.test(item.src) || item.src === './assets/images/section05/line-design-final.png'));
+  const models = candidates.filter(item => item && item.approvedForPreview === true && item.alt && (/^\.\/model-\d+\.(?:jpg|jpeg|png|webp|avif)$/i.test(item.src) || item.src === './assets/images/hero/line-design-retouched.png'));
   if (models.length !== candidates.length) return;
   const frames = models.map(item => {
     const img = new Image(); img.alt = item.alt; img.decoding = 'async'; img.src = item.src;

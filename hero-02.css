@@ -159,9 +159,10 @@
 /* The first slide has its own lettering and artwork. */
 .hero:not(.has-models) .hero-photo {
   transform:none;
-  background:#211927 url("assets/images/section05/line-design-final.png") center / contain no-repeat;
+  background:#211927 url("assets/images/hero/line-design-retouched.png") left center / contain no-repeat;
 }
-.hero .hero-slides img:first-child { object-fit:contain; object-position:center; }
+.hero .hero-slides:has(img:first-child.is-active) { background:linear-gradient(180deg,#302437,#2a1d30 70%,#352341); }
+.hero .hero-slides img:first-child { object-fit:contain; object-position:left center; }
 .hero:not(.has-models) .hero-copy,
 .hero:has(.hero-slides img:first-child.is-active) .hero-copy { visibility:hidden; }
 .hero:not(.has-models) .hero-shade,
