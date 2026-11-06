@@ -1,0 +1,13 @@
+/* Isolated first-slide artwork; no global layout, scroll or floating-UI changes. */
+.hero:not(.has-models) .hero-photo{background-image:url('assets/images/hero/auto-drawing/base.png')}
+.hero-drawing{position:absolute;width:1980px;height:901px;transform-origin:top left;overflow:visible;pointer-events:none;z-index:1;isolation:isolate}
+.hero-drawing[hidden]{display:none}
+.hero-drawing img{position:absolute;display:block;max-width:none;height:auto;opacity:0}
+.hero-drawing .drawing-top{left:380px;top:170px;width:300px}
+.hero-drawing .drawing-bottom{left:458px;top:622px;width:162px}
+.hero-drawing .drawing-right{left:798px;top:382px;width:122px}
+.hero-drawing .drawing-guides{position:absolute;left:0;top:0;width:1980px;height:901px;overflow:visible}
+.hero-drawing .drawing-lines,.hero-drawing .drawing-bottom-guide,.hero-drawing .drawing-right-guide{opacity:0}
+.hero-drawing .drawing-hand{left:0;top:0;width:900px;transform-origin:198px 79px}
+.hero-drawing.drawing-static .drawing-caption,.hero-drawing.drawing-static .drawing-lines,.hero-drawing.drawing-static .drawing-bottom-guide,.hero-drawing.drawing-static .drawing-right-guide{opacity:1;clip-path:none}
+.hero-drawing.drawing-static .drawing-hand{display:none}

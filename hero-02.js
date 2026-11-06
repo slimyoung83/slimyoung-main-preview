@@ -50,13 +50,15 @@
     img.style.setProperty('--model-mobile-position', item.mobilePosition || '65% top');
     return img;
   });
-  Promise.all(frames.map(img => img.decode())).then(() => {
+  frames[0].src = './assets/images/hero/auto-drawing/base.png';
+  Promise.all(frames.map(img => img.decode())).then(async () => {
+    const drawing = await window.createHeroDrawing(document.querySelector('.hero'), reduced);
     // Edit only the decoded hero copy. Original PNG and SECTION 05 stay untouched.
     const artwork = frames[0];
     const canvas = document.createElement('canvas');
-    canvas.width = artwork.naturalWidth; canvas.height = artwork.naturalHeight;
+    canvas.width = 1980; canvas.height = 901;
     const ctx = canvas.getContext('2d', {willReadFrequently:true});
-    ctx.drawImage(artwork, 0, 0);
+    ctx.drawImage(artwork, 0, 0, 1980, 901);
     function restoreRect(x,y,w,h) {
       const top = ctx.getImageData(x,y-4,w,1).data;
       const bottom = ctx.getImageData(x,y+h+4,w,1).data;
@@ -98,7 +100,7 @@
     }
     const layoutObserver=new ResizeObserver(alignStats);
     layoutObserver.observe(document.querySelector('.hero-slides')); alignStats();
-    reduced.addEventListener('change',()=>count(index===0));
+    reduced.addEventListener('change',()=>{count(index===0);drawing.select(index===0);});
     const container = document.querySelector('.hero-slides');
     const dots = document.querySelector('.hero-dots');
     const pause = document.querySelector('.hero-pause');
@@ -113,6 +115,7 @@
     function select(i, manual = false) {
       index = (i + models.length) % models.length;
       count(index === 0);
+      drawing.select(index === 0);
       frames.forEach((img, n) => { img.classList.toggle('is-active', n === index); img.setAttribute('aria-hidden', String(n !== index)); });
       buttons.forEach((button, n) => button.setAttribute('aria-pressed', String(n === index)));
       document.querySelector('.hero-page').textContent = `${String(index + 1).padStart(2,'0')} / ${String(models.length).padStart(2,'0')}`;
@@ -128,7 +131,8 @@
     hero.addEventListener('focusin', () => { interacting = true; stop(); }); hero.addEventListener('focusout', event => { if (!hero.contains(event.relatedTarget)) { interacting = false; schedule(); } });
     document.addEventListener('visibilitychange', schedule); reduced.addEventListener('change', schedule);
     const observer = new IntersectionObserver(entries => { onScreen = entries[0].isIntersecting; schedule(); }, {threshold:.15}); observer.observe(hero); schedule();
-    addEventListener('pagehide', () => { stop(); cancelAnimationFrame(countFrame); layoutObserver.disconnect(); observer.disconnect(); }, {once:true});
+    addEventListener('pagehide', () => { stop(); drawing.destroy(); cancelAnimationFrame(countFrame); layoutObserver.disconnect(); observer.disconnect(); }, {once:true});
   }).catch(() => { state.textContent = '모델 이미지 파일 확인 필요 · 기존 배경 유지'; });
 })();
+
 
