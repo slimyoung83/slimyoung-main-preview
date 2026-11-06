@@ -51,8 +51,10 @@
     return img;
   });
   frames[0].src = './assets/images/hero/auto-drawing/base.png';
+  // Drawing assets load independently: they must not replace/reinitialize the photo or counters.
+  let drawing=null;
+  const drawingReady=window.createHeroDrawing(document.querySelector('.hero'), reduced);
   Promise.all(frames.map(img => img.decode())).then(async () => {
-    const drawing = await window.createHeroDrawing(document.querySelector('.hero'), reduced);
     // Edit only the decoded hero copy. Original PNG and SECTION 05 stay untouched.
     const artwork = frames[0];
     const canvas = document.createElement('canvas');
@@ -72,6 +74,7 @@
     }
     [[1008,590,190,52],[1252,590,193,52],[1508,590,169,52],[1280,550,132,34]].forEach(r=>restoreRect(...r));
     artwork.src=canvas.toDataURL('image/png');
+    await artwork.decode(); // Never hide the fallback before its identical replacement is ready.
     const overlay=document.createElement('div');
     overlay.className='hero-live-stats';
     overlay.innerHTML='<span class="hero-lifting-label">리프팅 시술건수</span>'+[12000,72000,2000].map((n,i)=>'<span class="hero-live-number stat-'+i+'"><span data-count="'+n+'">'+n.toLocaleString('en-US')+'</span><small>건+</small></span>').join('');
@@ -100,7 +103,7 @@
     }
     const layoutObserver=new ResizeObserver(alignStats);
     layoutObserver.observe(document.querySelector('.hero-slides')); alignStats();
-    reduced.addEventListener('change',()=>{count(index===0);drawing.select(index===0);});
+    reduced.addEventListener('change',()=>{count(index===0);drawing?.select(index===0);});
     const container = document.querySelector('.hero-slides');
     const dots = document.querySelector('.hero-dots');
     // Main hero is manual-only. Drawing has its own finite animation frame, never a slide timer.
@@ -113,14 +116,19 @@
     function select(i) {
       index = (i + models.length) % models.length;
       count(index === 0);
-      drawing.select(index === 0);
+      drawing?.select(index === 0);
       frames.forEach((img, n) => { img.classList.toggle('is-active', n === index); img.setAttribute('aria-hidden', String(n !== index)); });
       buttons.forEach((button, n) => button.setAttribute('aria-pressed', String(n === index)));
       document.querySelector('.hero-page').textContent = `${String(index + 1).padStart(2,'0')} / ${String(models.length).padStart(2,'0')}`;
     }
+    // First paint is opaque; keep normal crossfades for subsequent manual selections.
+    artwork.style.transition='none';
+    select(0);
     controls.hidden = false; state.hidden = true; document.querySelector('.hero').classList.add('has-models');
-    container.setAttribute('aria-hidden', 'false'); select(0);
-    addEventListener('pagehide', () => { drawing.destroy(); cancelAnimationFrame(countFrame); layoutObserver.disconnect(); }, {once:true});
+    container.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>artwork.style.removeProperty('transition')));
+    drawingReady.then(value=>{drawing=value;drawing.select(index===0);}).catch(()=>{document.querySelector('.hero').dataset.drawingError='asset-load';});
+    addEventListener('pagehide', () => { drawing?.destroy(); cancelAnimationFrame(countFrame); layoutObserver.disconnect(); }, {once:true});
   }).catch(() => { state.textContent = '모델 이미지 파일 확인 필요 · 기존 배경 유지'; });
 })();
 

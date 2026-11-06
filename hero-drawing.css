@@ -3,3 +3,8 @@
 .hero-drawing{position:absolute;width:1980px;height:901px;transform-origin:top left;overflow:visible;pointer-events:none;z-index:1;isolation:isolate}
 .hero-drawing[hidden]{display:none}
 .hero-drawing .drawing-surface{position:absolute;left:0;top:0;max-width:none;pointer-events:none}
+
+/* SECTION01 initial photo matches the unfiltered decoded artwork. */
+.hero:not(.has-models) .hero-photo{filter:none}
+/* Restore the approved phase9 unit correction; global small text is otherwise dark. */
+.hero-live-number small{color:inherit;opacity:1;align-self:baseline;margin-left:2px}
