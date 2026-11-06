@@ -6,5 +6,7 @@
 
 /* SECTION01 initial photo matches the unfiltered decoded artwork. */
 .hero:not(.has-models) .hero-photo{filter:none}
-/* Restore the approved phase9 unit correction; global small text is otherwise dark. */
-.hero-live-number small{color:inherit;opacity:1;align-self:baseline;margin-left:2px}
+/* Explicit Korean Bold fixes thin fallback glyphs, not just their computed color. */
+.hero .hero-live-stats .hero-live-number{color:#DEA1F2;opacity:1;column-gap:2px}
+.hero .hero-live-stats .hero-live-number>[data-count]{color:#DEA1F2;opacity:1}
+.hero .hero-live-stats .hero-live-number>small{color:#DEA1F2;-webkit-text-fill-color:#DEA1F2;font:700 24px/1 'Noto Serif KR',serif;opacity:1;align-self:baseline;margin:0;letter-spacing:0;flex:none}

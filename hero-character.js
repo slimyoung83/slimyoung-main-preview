@@ -1,7 +1,7 @@
 'use strict';
 window.createHeroDrawing = async function(hero,reduced){
  const root='./assets/images/hero/auto-drawing/';
- const response=await fetch(root+'character-layout.json');if(!response.ok)throw Error('Drawing layout unavailable');const data=await response.json();
+ const response=await fetch(root+'character-layout.json?v=unit-ridge-alignment-1');if(!response.ok)throw Error('Drawing layout unavailable');const data=await response.json();
  const load=async file=>{const image=new Image();image.src=root+file;await image.decode();return image;};
  const stage=document.createElement('div');stage.className='hero-drawing';stage.hidden=true;stage.setAttribute('aria-hidden','true');
  const surface=document.createElement('canvas');surface.className='drawing-surface';stage.append(surface);hero.append(stage);const ctx=surface.getContext('2d');
@@ -10,7 +10,7 @@ window.createHeroDrawing = async function(hero,reduced){
  const hand=handImage;
  const captions=data.captions.map((c,i)=>({...c,image:captionImages[i]}));
  async function inkLayer(spec){
-  const [image,map]=await Promise.all([load(spec.file),load(spec.map)]),canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;
+  const [image,map]=await Promise.all([load(spec.file),load(spec.map+'?v=unit-ridge-alignment-1')]),canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;
   const context=canvas.getContext('2d',{willReadFrequently:true});context.drawImage(image,0,0);const original=context.getImageData(0,0,canvas.width,canvas.height),ink=context.createImageData(canvas.width,canvas.height);ink.data.set(original.data);
   context.clearRect(0,0,canvas.width,canvas.height);context.drawImage(map,0,0);const mb=context.getImageData(0,0,canvas.width,canvas.height).data,ranks=new Uint16Array(canvas.width*canvas.height),counts=new Uint32Array(65536);let total=0;
   for(let i=0;i<ranks.length;i++){ranks[i]=mb[i*4]*256+mb[i*4+1];ink.data[i*4+3]=0;if(original.data[i*4+3]&&ranks[i]){counts[ranks[i]]++;total++;}}
@@ -40,7 +40,10 @@ window.createHeroDrawing = async function(hero,reduced){
  caption(captions[2]);connector([[798,414],[739,414]],'right');
  caption(captions[1]);connector([[495,622],[467,535]],'bottom');
  const glowPath=glow.paths[0].map(p=>transform(glow,p));move(glowPath[0],.25,'glow',true);const glowStep={kind:'glow',start:time,end:time+1,path:path(glowPath),phase:'glow'};segments.push(glowStep);time=glowStep.end;last=glowPath.at(-1);
- move([580,510],.22,'settle');const finalPen=last.slice(),duration=time;
+ // Draw in the original direction, then settle back ALONG the same measured ridge.
+ const restPath=glowPath.slice(glow.restIndex).reverse();
+ segments.push({kind:'move',start:time,end:time+.22,path:path(restPath),phase:'settle'});time+=.22;last=restPath.at(-1);
+ const finalPen=last.slice(),duration=time;
  stage.dataset.duration=String(duration);stage.dataset.writingMode='one-motion-per-character';stage.dataset.characters=String(letters.length);
  stage.dataset.schedule=JSON.stringify(segments.filter(s=>s.kind!=='move').map(s=>({kind:s.kind,phase:s.phase,char:s.char,start:+s.start.toFixed(3),end:+s.end.toFixed(3)})));
  let raf=0,started=0,active=false,pausedAt=0,virtualHeight=901,ratio=1;const progress=(step,t)=>Math.max(0,Math.min(1,(t-step.start)/(step.end-step.start)));
@@ -56,7 +59,7 @@ window.createHeroDrawing = async function(hero,reduced){
   connectors.forEach(step=>drawConnector(step,t));let curveProgress=0;for(const step of lineSteps)if(t>=step.start)curveProgress=(step.i+progress(step,t))/lineSteps.length;
   updateInk(curves,curveProgress);drawLayer(curves);updateInk(glow,progress(glowStep,t));drawLayer(glow);
   const segment=segments.find(s=>t>=s.start&&t<s.end);stage.dataset.phase=t<.35?'base':t>=duration?'complete':segment?.phase||'travel';
-  if(segment||t>=duration){let pen=finalPen;if(segment){let f=progress(segment,t);if(segment.kind==='move')f=smooth(f);pen=point(segment.path,f);}ctx.save();ctx.translate(...pen);ctx.rotate(-37*Math.PI/180);const scale=500/1122;ctx.globalAlpha=Math.max(0,Math.min(1,(t-.35)/.30));ctx.drawImage(hand,-286*scale,-104*scale,500,1402*scale);ctx.restore();stage.dataset.penX=pen[0].toFixed(3);stage.dataset.penY=pen[1].toFixed(3);stage.dataset.penDown=String(!!segment&&segment.kind!=='move');stage.dataset.handVisible=String(t>.35);stage.dataset.character=segment?.char||'';
+  if(segment||t>=duration){let pen=finalPen;if(segment){let f=progress(segment,t);if(segment.kind==='move')f=smooth(f);pen=point(segment.path,f);}ctx.save();ctx.translate(...pen);ctx.rotate(-37*Math.PI/180);const scale=500/1122;ctx.globalAlpha=Math.max(0,Math.min(1,(t-.35)/.30));ctx.drawImage(hand,-data.handTip[0]*scale,-data.handTip[1]*scale,500,1402*scale);ctx.restore();stage.dataset.penX=pen[0].toFixed(3);stage.dataset.penY=pen[1].toFixed(3);stage.dataset.penDown=String(!!segment&&segment.kind!=='move');stage.dataset.handVisible=String(t>.35);stage.dataset.character=segment?.char||'';
   }else{stage.dataset.penDown='false';stage.dataset.handVisible='false';stage.dataset.character='';}
   if(t>=duration&&!stage.dataset.actualComplete)stage.dataset.actualComplete=t.toFixed(3);
   stage.dataset.elapsed=Math.min(t,duration).toFixed(3);stage.dataset.revealed=String(letters.filter(s=>t>=s.end).length);stage.dataset.progress=Math.min(1,t/duration).toFixed(4);
