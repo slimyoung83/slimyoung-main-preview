@@ -53,8 +53,19 @@ window.createHeroDrawing = async function(hero,reduced){
  const [before,after]=sourceRidge.slice(contactIndex-1,contactIndex+1);
  const ridgeY=before[1]+(after[1]-before[1])*(contactX-before[0])/(after[0]-before[0]);
  const lift=contactY-ridgeY;
- const radius=560;
- const shift=x=>lift*(1-smooth(Math.min(1,Math.abs(x-contactX)/radius)));
+ // Native PNG columns sampled along the arm edge. Follow the silhouette through
+ // the contact rather than bending the line only toward the nib.
+ const profile=[[80,0],[200,-14],[500,-51],[950,-69],[contactX,lift],[1500,-74],[1800,-38],[2000,0]];
+ function shift(x){
+  const i=profile.findIndex(([column])=>column>x);
+  if(i<1)return 0;
+  const [left,y0]=profile[i-1],[right,y1]=profile[i];
+  const [previous,yp]=profile[Math.max(0,i-2)],[next,yn]=profile[Math.min(profile.length-1,i+1)];
+  const span=right-left,t=(x-left)/span;
+  const m0=i===1?0:span*(y1-yp)/(right-previous);
+  const m1=i===profile.length-1?0:span*(yn-y0)/(next-left);
+  return y0+(y1-y0)*smooth(t)+t*(1-t)*((1-t)*m0-t*m1);
+ }
  const glowPenPoint=([x,y])=>transform(glow,[x,y+shift(x)]).map((value,i)=>value-nibOffset[i]);
  const glowPath=sourceRidge.map(glowPenPoint);
  // The reveal ranks measure distance on the original ridge, so retain that clock.
