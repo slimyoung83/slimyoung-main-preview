@@ -51,9 +51,11 @@
     return img;
   });
   frames[0].src = './assets/images/hero/auto-drawing/base.png';
-  // Drawing assets load independently: they must not replace/reinitialize the photo or counters.
-  let drawing=null;
-  const drawingReady=window.createHeroDrawing(document.querySelector('.hero'), reduced);
+  const hero=document.querySelector('.hero');
+  const drawingReady=window.createHeroDrawing(hero,reduced).catch(()=>{
+    hero.dataset.drawingError='asset-load';
+    return null;
+  });
   Promise.all(frames.map(img => img.decode())).then(async () => {
     // Edit only the decoded hero copy. Original PNG and SECTION 05 stay untouched.
     const artwork = frames[0];
@@ -74,18 +76,17 @@
     }
     [[1008,590,190,52],[1252,590,193,52],[1508,590,169,52],[1280,550,132,34]].forEach(r=>restoreRect(...r));
     artwork.src=canvas.toDataURL('image/png');
-    await artwork.decode(); // Never hide the fallback before its identical replacement is ready.
+    const [drawing]=await Promise.all([drawingReady,artwork.decode()]);
     const overlay=document.createElement('div');
     overlay.className='hero-live-stats';
     overlay.innerHTML='<span class="hero-lifting-label">리프팅 시술건수</span>'+[12000,72000,2000].map((n,i)=>'<span class="hero-live-number stat-'+i+'"><span data-count="'+n+'">'+n.toLocaleString('en-US')+'</span><small>건+</small></span>').join('');
     document.querySelector('.hero').append(overlay);
     const countNodes=[...overlay.querySelectorAll('[data-count]')];
     let countFrame=0;
-    function count(active) {
+    function count(active,start) {
       cancelAnimationFrame(countFrame); countFrame=0;
       overlay.hidden=!active;
       if(!active) return;
-      const start=performance.now();
       function tick(now) {
         const progress=reduced.matches?1:Math.min(1,(now-start)/2000);
         const eased=1-Math.pow(1-progress,3);
@@ -103,7 +104,7 @@
     }
     const layoutObserver=new ResizeObserver(alignStats);
     layoutObserver.observe(document.querySelector('.hero-slides')); alignStats();
-    reduced.addEventListener('change',()=>{count(index===0);drawing?.select(index===0);});
+    reduced.addEventListener('change',startEffects);
     const container = document.querySelector('.hero-slides');
     const dots = document.querySelector('.hero-dots');
     // Main hero is manual-only. Drawing has its own finite animation frame, never a slide timer.
@@ -113,10 +114,14 @@
       const button = document.createElement('button'); button.type = 'button'; button.setAttribute('aria-label', `${i + 1}번 모델 이미지 보기`);
       button.addEventListener('click', () => { select(i); }); dots.append(button); return button;
     });
+    function startEffects() {
+      const start=performance.now();
+      count(index===0,start);
+      drawing?.select(index===0,start);
+    }
     function select(i) {
       index = (i + models.length) % models.length;
-      count(index === 0);
-      drawing?.select(index === 0);
+      startEffects();
       frames.forEach((img, n) => { img.classList.toggle('is-active', n === index); img.setAttribute('aria-hidden', String(n !== index)); });
       buttons.forEach((button, n) => button.setAttribute('aria-pressed', String(n === index)));
       document.querySelector('.hero-page').textContent = `${String(index + 1).padStart(2,'0')} / ${String(models.length).padStart(2,'0')}`;
@@ -127,7 +132,6 @@
     controls.hidden = false; state.hidden = true; document.querySelector('.hero').classList.add('has-models');
     container.setAttribute('aria-hidden', 'false');
     requestAnimationFrame(()=>requestAnimationFrame(()=>artwork.style.removeProperty('transition')));
-    drawingReady.then(value=>{drawing=value;drawing.select(index===0);}).catch(()=>{document.querySelector('.hero').dataset.drawingError='asset-load';});
     addEventListener('pagehide', () => { drawing?.destroy(); cancelAnimationFrame(countFrame); layoutObserver.disconnect(); }, {once:true});
   }).catch(() => { state.textContent = '모델 이미지 파일 확인 필요 · 기존 배경 유지'; });
 })();

@@ -66,7 +66,11 @@ window.createHeroDrawing = async function(hero,reduced){
   const m1=i===profile.length-1?0:span*(yn-y0)/(next-left);
   return y0+(y1-y0)*smooth(t)+t*(1-t)*((1-t)*m0-t*m1);
  }
- const glowPenPoint=([x,y])=>transform(glow,[x,y+shift(x)]).map((value,i)=>value-nibOffset[i]);
+ // Extend only the original left taper; the middle and pen contact retain their coordinates.
+ const extension=800;
+ const leftExtension=x=>extension*Math.max(0,1-x/800)**2;
+ const extendGlow=([x,y])=>[x-leftExtension(x),y+shift(x)+leftExtension(x)*.13];
+ const glowPenPoint=p=>transform(glow,extendGlow(p)).map((value,i)=>value-nibOffset[i]);
  const glowPath=sourceRidge.map(glowPenPoint);
  // The reveal ranks measure distance on the original ridge, so retain that clock.
  const glowPenPath={...path(sourceRidge),points:glowPath};
@@ -78,8 +82,16 @@ window.createHeroDrawing = async function(hero,reduced){
  const duration=time;
  // Move each source pixel with its reveal rank. Round only at native PNG resolution.
  const glowWidth=glow.canvas.width;
- const columnShift=Int16Array.from({length:glowWidth},(_,x)=>Math.round(shift(x)));
- glow.destination=Int32Array.from(glow.order,pixel=>pixel+glowWidth*columnShift[pixel%glowWidth]);
+ const columns=Int16Array.from({length:glowWidth+1},(_,x)=>Math.round(extendGlow([x,0])[0])+extension);
+ const rows=Int16Array.from({length:glowWidth},(_,x)=>Math.round(extendGlow([x,0])[1]));
+ glow.canvas.width=glowWidth+extension;
+ glow.ink=glow.context.createImageData(glow.canvas.width,glow.canvas.height);
+ glow.leftPadding=extension;
+ glow.destination=Int32Array.from(glow.order,pixel=>{
+  const x=pixel%glowWidth,y=Math.floor(pixel/glowWidth)+rows[x];
+  return y<0||y>=glow.canvas.height?-1:y*glow.canvas.width+columns[x];
+ });
+ glow.columnWidths=Uint8Array.from(rows,(_,x)=>columns[x+1]-columns[x]);
  stage.dataset.duration=String(duration);stage.dataset.writingMode='one-motion-per-character';stage.dataset.characters=String(letters.length);
  stage.dataset.schedule=JSON.stringify(segments.filter(s=>s.kind!=='move').map(s=>({kind:s.kind,phase:s.phase,char:s.char,start:+s.start.toFixed(3),end:+s.end.toFixed(3)})));
  let raf=0,started=0,active=false,pausedAt=0,virtualHeight=901,ratio=1;const progress=(step,t)=>Math.max(0,Math.min(1,(t-step.start)/(step.end-step.start)));
@@ -90,14 +102,16 @@ window.createHeroDrawing = async function(hero,reduced){
    const index=layer.revealed++, source=layer.order[index]*4;
    if(layer.destination){
     const target=layer.destination[index]*4;
-    if(target>=0&&target<layer.ink.data.length){
-     for(let channel=0;channel<4;channel++)layer.ink.data[target+channel]=layer.original.data[source+channel];
+    if(target>=0){
+     const width=layer.columnWidths[layer.order[index]%glowWidth];
+     const rgba=layer.original.data.subarray(source,source+4);
+     for(let column=0;column<width;column++)layer.ink.data.set(rgba,target+column*4);
     }
    }else layer.ink.data[source+3]=layer.original.data[source+3];
   }
   if(layer.revealed!==previous)layer.context.putImageData(layer.ink,0,0);
  }
- function drawLayer(layer){ctx.save();ctx.translate(...layer.offset);ctx.rotate(layer.angle*Math.PI/180);ctx.scale(layer.scale,layer.scale);ctx.drawImage(layer.canvas,0,0);ctx.restore();}
+ function drawLayer(layer){ctx.save();ctx.translate(...layer.offset);ctx.rotate(layer.angle*Math.PI/180);ctx.scale(layer.scale,layer.scale);ctx.drawImage(layer.canvas,-(layer.leftPadding||0),0);ctx.restore();}
  function drawConnector(step,t){const f=progress(step,t);if(!f)return;
   if(step.embedded){const c=captions[0],sy=455,height=(c.image.height-sy)*f;ctx.drawImage(c.image,0,sy,c.image.width,height,c.x,c.y+sy*c.height/c.image.height,c.width,height*c.height/c.image.height);return;}
   const a=step.path.points[0],b=point(step.path,f);ctx.save();ctx.strokeStyle='#fff';ctx.fillStyle='#fff';ctx.lineWidth=1.5;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();if(f===1){ctx.beginPath();ctx.arc(b[0],b[1],3,0,Math.PI*2);ctx.fill();}ctx.restore();
@@ -116,7 +130,7 @@ window.createHeroDrawing = async function(hero,reduced){
  }
  function reset(){delete stage.dataset.actualComplete;for(const layer of [curves,glow]){layer.revealed=0;for(let i=3;i<layer.ink.data.length;i+=4)layer.ink.data[i]=0;layer.context.putImageData(layer.ink,0,0);}}
  function tick(now){raf=0;if(!active||document.hidden)return;const t=reduced.matches?duration:(now-started)/1000;render(t);if(t<duration)raf=requestAnimationFrame(tick);}
- function select(value){cancelAnimationFrame(raf);raf=0;active=value;stage.hidden=!value;reset();ctx.clearRect(0,0,surface.width,surface.height);if(!value){stage.dataset.phase='inactive';return;}started=performance.now();pausedAt=0;render(reduced.matches?duration:0);if(!reduced.matches)raf=requestAnimationFrame(tick);}
+ function select(value,start){cancelAnimationFrame(raf);raf=0;active=value;stage.hidden=!value;reset();ctx.clearRect(0,0,surface.width,surface.height);if(!value){stage.dataset.phase='inactive';return;}started=start;pausedAt=0;render(reduced.matches?duration:0);if(!reduced.matches)raf=requestAnimationFrame(tick);}
  function align(){const box=hero.querySelector('.hero-slides').getBoundingClientRect(),h=hero.getBoundingClientRect(),scale=Math.min(box.width/1980,box.height/901);stage.style.left=(box.left-h.left)+'px';stage.style.top=(box.top-h.top)+'px';stage.style.transform=`scale(${scale})`;virtualHeight=Math.max(901,(h.bottom-box.top)/scale);ratio=Math.min(1.5,Math.max(.15,scale*(devicePixelRatio||1)));surface.width=Math.round(1980*ratio);surface.height=Math.round(virtualHeight*ratio);surface.style.width='1980px';surface.style.height=virtualHeight+'px';if(active)render(reduced.matches?duration:Math.min(duration,(performance.now()-started)/1000));}
  function visibility(){if(document.hidden){if(active){pausedAt=performance.now();cancelAnimationFrame(raf);raf=0;}}else if(active&&pausedAt){started+=performance.now()-pausedAt;pausedAt=0;raf=requestAnimationFrame(tick);}}
  document.addEventListener('visibilitychange',visibility);const observer=new ResizeObserver(align);observer.observe(hero.querySelector('.hero-slides'));align();return {select,destroy(){cancelAnimationFrame(raf);observer.disconnect();document.removeEventListener('visibilitychange',visibility);stage.remove();}};
