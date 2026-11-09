@@ -39,15 +39,53 @@ window.createHeroDrawing = async function(hero,reduced){
  curves.paths.forEach((points,i)=>{const world=points.map(p=>transform(curves,p));move(world[0],.10,'lines');const step={kind:'curve',start:time,end:time+.64,path:path(world),phase:'lines',i};segments.push(step);lineSteps.push(step);time=step.end;last=world.at(-1);});
  caption(captions[2]);connector([[798,414],[739,414]],'right');
  caption(captions[1]);connector([[495,622],[467,535]],'bottom');
- const glowPath=glow.paths[0].map(p=>transform(glow,p));move(glowPath[0],.25,'glow',true);const glowStep={kind:'glow',start:time,end:time+1,path:path(glowPath),phase:'glow'};segments.push(glowStep);time=glowStep.end;last=glowPath.at(-1);
- // Draw in the original direction, then settle back ALONG the same measured ridge.
- const restPath=glowPath.slice(glow.restIndex).reverse();
+ const finalPen=[580,510], handAnchor=[286,104];
+ // Keep the approved hand transform. Its visible nib is slightly offset from the image anchor.
+ const handAngle=-37*Math.PI/180, handScale=500/1122;
+ const [tipX,tipY]=data.handTip.map((value,i)=>(value-handAnchor[i])*handScale);
+ const nibOffset=[tipX*Math.cos(handAngle)-tipY*Math.sin(handAngle),tipX*Math.sin(handAngle)+tipY*Math.cos(handAngle)];
+ const glowAngle=glow.angle*Math.PI/180;
+ const [dx,dy]=finalPen.map((value,i)=>(value+nibOffset[i]-glow.offset[i])/glow.scale);
+ const contactX=dx*Math.cos(glowAngle)+dy*Math.sin(glowAngle);
+ const contactY=-dx*Math.sin(glowAngle)+dy*Math.cos(glowAngle);
+ const sourceRidge=glow.paths[0];
+ const contactIndex=sourceRidge.findIndex(([x])=>x>=contactX);
+ const [before,after]=sourceRidge.slice(contactIndex-1,contactIndex+1);
+ const ridgeY=before[1]+(after[1]-before[1])*(contactX-before[0])/(after[0]-before[0]);
+ const lift=contactY-ridgeY;
+ const radius=560;
+ const shift=x=>lift*(1-smooth(Math.min(1,Math.abs(x-contactX)/radius)));
+ const glowPenPoint=([x,y])=>transform(glow,[x,y+shift(x)]).map((value,i)=>value-nibOffset[i]);
+ const glowPath=sourceRidge.map(glowPenPoint);
+ // The reveal ranks measure distance on the original ridge, so retain that clock.
+ const glowPenPath={...path(sourceRidge),points:glowPath};
+ move(glowPath[0],.25,'glow',true);
+ const glowStep={kind:'glow',start:time,end:time+1,path:glowPenPath,phase:'glow'};
+ segments.push(glowStep);time=glowStep.end;last=glowPath.at(-1);
+ const restPath=[...glowPath.slice(contactIndex).reverse(),finalPen];
  segments.push({kind:'move',start:time,end:time+.22,path:path(restPath),phase:'settle'});time+=.22;last=restPath.at(-1);
- const finalPen=last.slice(),duration=time;
+ const duration=time;
+ // Move each source pixel with its reveal rank. Round only at native PNG resolution.
+ const glowWidth=glow.canvas.width;
+ const columnShift=Int16Array.from({length:glowWidth},(_,x)=>Math.round(shift(x)));
+ glow.destination=Int32Array.from(glow.order,pixel=>pixel+glowWidth*columnShift[pixel%glowWidth]);
  stage.dataset.duration=String(duration);stage.dataset.writingMode='one-motion-per-character';stage.dataset.characters=String(letters.length);
  stage.dataset.schedule=JSON.stringify(segments.filter(s=>s.kind!=='move').map(s=>({kind:s.kind,phase:s.phase,char:s.char,start:+s.start.toFixed(3),end:+s.end.toFixed(3)})));
  let raf=0,started=0,active=false,pausedAt=0,virtualHeight=901,ratio=1;const progress=(step,t)=>Math.max(0,Math.min(1,(t-step.start)/(step.end-step.start)));
- function updateInk(layer,f){const limit=Math.round(Math.max(0,Math.min(1,f))*65534);let changed=false;while(layer.revealed<layer.order.length&&layer.ranks[layer.order[layer.revealed]]<=limit){const pixel=layer.order[layer.revealed++];layer.ink.data[pixel*4+3]=layer.original.data[pixel*4+3];changed=true;}if(changed)layer.context.putImageData(layer.ink,0,0);}
+ function updateInk(layer,f){
+  const limit=Math.round(Math.max(0,Math.min(1,f))*65534);
+  const previous=layer.revealed;
+  while(layer.revealed<layer.order.length&&layer.ranks[layer.order[layer.revealed]]<=limit){
+   const index=layer.revealed++, source=layer.order[index]*4;
+   if(layer.destination){
+    const target=layer.destination[index]*4;
+    if(target>=0&&target<layer.ink.data.length){
+     for(let channel=0;channel<4;channel++)layer.ink.data[target+channel]=layer.original.data[source+channel];
+    }
+   }else layer.ink.data[source+3]=layer.original.data[source+3];
+  }
+  if(layer.revealed!==previous)layer.context.putImageData(layer.ink,0,0);
+ }
  function drawLayer(layer){ctx.save();ctx.translate(...layer.offset);ctx.rotate(layer.angle*Math.PI/180);ctx.scale(layer.scale,layer.scale);ctx.drawImage(layer.canvas,0,0);ctx.restore();}
  function drawConnector(step,t){const f=progress(step,t);if(!f)return;
   if(step.embedded){const c=captions[0],sy=455,height=(c.image.height-sy)*f;ctx.drawImage(c.image,0,sy,c.image.width,height,c.x,c.y+sy*c.height/c.image.height,c.width,height*c.height/c.image.height);return;}
@@ -57,9 +95,10 @@ window.createHeroDrawing = async function(hero,reduced){
   ctx.setTransform(ratio,0,0,ratio,0,0);ctx.clearRect(0,0,1980,virtualHeight);
   for(const step of letters){const f=progress(step,t);if(!f)continue;const c=step.c,[x,y,w,h]=step.glyph.rect,sx=c.width/c.image.width,sy=c.height/c.image.height;ctx.save();ctx.globalAlpha=smooth(f);ctx.drawImage(c.image,x,y,w,h,c.x+x*sx,c.y+y*sy,w*sx,h*sy);ctx.restore();}
   connectors.forEach(step=>drawConnector(step,t));let curveProgress=0;for(const step of lineSteps)if(t>=step.start)curveProgress=(step.i+progress(step,t))/lineSteps.length;
-  updateInk(curves,curveProgress);drawLayer(curves);updateInk(glow,progress(glowStep,t));drawLayer(glow);
+  updateInk(curves,curveProgress);drawLayer(curves);
+  if(t>glowStep.start){updateInk(glow,progress(glowStep,t));drawLayer(glow);}
   const segment=segments.find(s=>t>=s.start&&t<s.end);stage.dataset.phase=t<.35?'base':t>=duration?'complete':segment?.phase||'travel';
-  if(segment||t>=duration){let pen=finalPen;if(segment){let f=progress(segment,t);if(segment.kind==='move')f=smooth(f);pen=point(segment.path,f);}ctx.save();ctx.translate(...pen);ctx.rotate(-37*Math.PI/180);const scale=500/1122;ctx.globalAlpha=Math.max(0,Math.min(1,(t-.35)/.30));ctx.drawImage(hand,-data.handTip[0]*scale,-data.handTip[1]*scale,500,1402*scale);ctx.restore();stage.dataset.penX=pen[0].toFixed(3);stage.dataset.penY=pen[1].toFixed(3);stage.dataset.penDown=String(!!segment&&segment.kind!=='move');stage.dataset.handVisible=String(t>.35);stage.dataset.character=segment?.char||'';
+  if(segment||t>=duration){let pen=finalPen;if(segment){let f=progress(segment,t);if(segment.kind==='move')f=smooth(f);pen=point(segment.path,f);}ctx.save();ctx.translate(...pen);ctx.rotate(-37*Math.PI/180);const scale=500/1122;ctx.globalAlpha=Math.max(0,Math.min(1,(t-.35)/.30));ctx.drawImage(hand,-handAnchor[0]*scale,-handAnchor[1]*scale,500,1402*scale);ctx.restore();stage.dataset.penX=pen[0].toFixed(3);stage.dataset.penY=pen[1].toFixed(3);stage.dataset.penDown=String(!!segment&&segment.kind!=='move');stage.dataset.handVisible=String(t>.35);stage.dataset.character=segment?.char||'';
   }else{stage.dataset.penDown='false';stage.dataset.handVisible='false';stage.dataset.character='';}
   if(t>=duration&&!stage.dataset.actualComplete)stage.dataset.actualComplete=t.toFixed(3);
   stage.dataset.elapsed=Math.min(t,duration).toFixed(3);stage.dataset.revealed=String(letters.filter(s=>t>=s.end).length);stage.dataset.progress=Math.min(1,t/duration).toFixed(4);
