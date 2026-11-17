@@ -78,9 +78,9 @@ window.createHeroDrawing = async function(hero,reduced){
    const to=[(box.right-origin.left)/scale-nibOffset[0],y];
    const first=previousRow===-1;
    const lineBreak=glyph.row!==previousRow;
-   move(from,first?.35:lineBreak?.10:.015,phase,lineBreak);
+   move(from,first?.32:lineBreak?.08:.015,phase,lineBreak);
    if(first)connectors.push({kind:'connector',start:time,end:time+.45,path:path(connectorPoints),phase});
-   const step={kind:'letter',start:time,end:time+.16,path:path([from,to]),phase,char:glyph.char,span:glyph.span};
+   const step={kind:'letter',start:time,end:time+.13,path:path([from,to]),phase,char:glyph.char,span:glyph.span};
    segments.push(step);letters.push(step);time=step.end;last=to;previousRow=glyph.row;
   }
  }
@@ -125,7 +125,7 @@ window.createHeroDrawing = async function(hero,reduced){
   segments=[];letters=[];connectors=[];time=.35;last=[600,1200];
   caption(captions[0],'top',[[473.75,340.3],[500.7,260.8]]);
   move(guidePath.points[0],.33,'lines',true);
-  guideStep={kind:'curve',start:time,end:time+2.85,path:guidePath,phase:'lines'};
+  guideStep={kind:'curve',start:time,end:time+1,path:guidePath,phase:'lines'};
   segments.push(guideStep);time=guideStep.end;last=guidePath.points.at(-1);
   caption(captions[1],'right',[[739,414],[798,414]]);
   caption(captions[2],'bottom',[[467,535],[495,622]]);

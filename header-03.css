@@ -1,12 +1,3 @@
-/* Revision 03: header-only layout. Uses the existing Windows Korean Bold face.
-   No font file is copied or redistributed; other sections keep their fonts. */
-@font-face{
-  font-family:'Slimyoung Header Sans';
-  src:local('MalgunGothicBold'),local('Malgun Gothic Bold');
-  font-style:normal;
-  font-weight:700;
-  font-display:swap;
-}
 .site-header,.site-header.is-scrolled{
   display:grid;
   grid-template-columns:max-content minmax(0,1fr);
@@ -25,10 +16,10 @@
   min-width:0;
 }
 .site-header .desktop-nav>button{
-  font-family:'Slimyoung Header Sans','Malgun Gothic','Noto Sans KR',sans-serif;
+  font-family:'Noto Sans KR',sans-serif;
   font-size:16px;
   font-style:normal;
-  font-weight:700;
+  font-weight:500;
   font-synthesis:none;
   line-height:1.5;
   letter-spacing:-.35px;
@@ -38,9 +29,9 @@
 }
 .site-header .menu-open{display:none}
 .mobile-menu summary{
-  font-family:'Slimyoung Header Sans','Malgun Gothic','Noto Sans KR',sans-serif;
+  font-family:'Noto Sans KR',sans-serif;
   font-size:16px;
-  font-weight:700;
+  font-weight:500;
   font-synthesis:none;
 }
 /* Use a full menu rather than shrinking 16px labels when the row is tight. */
@@ -122,3 +113,55 @@
  transition:transform 300ms ease-out,visibility 0s 300ms;
 }
 @media(prefers-reduced-motion:reduce){.site-header,.site-header.is-scrolled {transition:none!important;}}
+
+
+.site-header .desktop-nav > button {position:relative;}
+.site-header .desktop-nav::after {
+  content:'';position:absolute;bottom:5px;left:0;height:2px;
+  width:var(--menu-marker-width,0);transform:translateX(var(--menu-marker-x,0));
+  background:#dea1f2;pointer-events:none;opacity:0;
+  transition:opacity 140ms ease;
+}
+.site-header .desktop-nav[data-active]::after {
+  opacity:1;
+  transition:opacity 140ms ease,transform 200ms ease,width 200ms ease;
+}
+.site-header .desktop-nav > button[aria-expanded="true"] {color:#dea1f2;}
+.site-header .mega-panel {
+  padding:0;opacity:0;pointer-events:none;
+  transition:opacity 180ms ease-out;
+}
+.site-header .mega-panel[data-open] {
+  opacity:1;pointer-events:auto;transition-duration:250ms;
+}
+.site-header .mega-group {
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  gap:6px 24px;margin:0 auto;padding:18px 32px;list-style:none;
+  max-width:1660px;font:400 16px/1.5 'Noto Sans KR',sans-serif;
+}
+.site-header .mega-group[hidden] {display:none;}
+.site-header .mega-panel[data-open] .mega-group:not([hidden]) {
+  animation:submenu-enter 250ms ease-out both;
+}
+.site-header .mega-panel[data-open][data-entry="switch"] .mega-group:not([hidden]) {
+  animation:submenu-switch 160ms ease-out both;
+}
+@keyframes submenu-switch {
+  from {opacity:.65;transform:translateY(-6px);}
+  to {opacity:1;transform:translateY(0);}
+}
+@keyframes submenu-enter {
+  from {opacity:0;transform:translateY(-14px);clip-path:inset(0 0 100% 0);}
+  to {opacity:1;transform:translateY(0);clip-path:inset(0);}
+}
+.site-header .mega-group a,.site-header .mega-group .mega-label {
+  display:block;margin:0;padding:9px 0;color:#b9adbf;font:inherit;white-space:nowrap;
+}
+.site-header .mega-group a:hover {color:#dea1f2;}
+.site-header :is(.desktop-nav button,.mega-group,.mega-group a):focus-visible,
+.mobile-menu :is(summary,a):focus-visible {outline:2px solid #dea1f2;outline-offset:4px;}
+.mobile-menu .mobile-submenu :is(a,.mega-label) {display:block;padding:10px 0;color:#c4b3d1;font:400 15px/1.5 'Noto Sans KR',sans-serif;}
+.consult-bar-02 :is(input,select,button) {font-family:'Noto Sans KR',sans-serif;font-weight:500;}
+@media(prefers-reduced-motion:reduce) {
+  .site-header .mega-panel,.site-header .desktop-nav::after,.site-header .desktop-nav[data-active]::after {transition:none;}
+}

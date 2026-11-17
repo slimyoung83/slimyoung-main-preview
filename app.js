@@ -46,36 +46,114 @@
   });
   $$('[data-close]').forEach(button => button.addEventListener('click', () => close(document.getElementById(button.dataset.close))));
 
-  const panel = $('#mega-panel'); const menuButtons = $$('[data-menu]');
-  function hideMega(focus = false) {
-    const invoker = menuButtons.find(button => button.getAttribute('aria-expanded') === 'true');
-    panel.hidden = true; menuButtons.forEach(button => button.setAttribute('aria-expanded', 'false'));
-    if (focus && invoker) invoker.focus();
+  const panel = $('#mega-panel');
+  const desktopNav = $('.desktop-nav');
+  const menuButtons = $$('[data-menu]');
+  const menuGroups = [...panel.querySelectorAll('.mega-group')];
+  const header = $('.site-header');
+  let activeMenu = null;
+  let closeTimer = 0;
+  let pointerExitTimer = 0;
+
+  const mobileNav = $('#mobile-menu nav');
+  menuGroups.forEach(group => {
+    const details = el('details');
+    const summary = el('summary', '', group.getAttribute('aria-label'));
+    const links = el('div', 'mobile-submenu');
+    for (const item of group.children) links.append(item.firstElementChild.cloneNode(true));
+    details.append(summary, links);
+    mobileNav.append(details);
+  });
+
+  function hideMega(restoreFocus = false) {
+    if (!activeMenu) return;
+    clearTimeout(pointerExitTimer);
+    const invoker = activeMenu;
+    activeMenu = null;
+    invoker.setAttribute('aria-expanded', 'false');
+    if (restoreFocus) invoker.focus();
+    panel.inert = true;
+    delete panel.dataset.open;
+    delete desktopNav.dataset.active;
+    clearTimeout(closeTimer);
+    if (motion.matches) panel.hidden = true;
+    else closeTimer = setTimeout(() => { panel.hidden = true; }, 180);
   }
-  menuButtons.forEach(button => button.addEventListener('click', () => {
-    const toggleOff = button.getAttribute('aria-expanded') === 'true' && !panel.hidden;
-    hideMega();
-    if (toggleOff) return;
-    panel.hidden = false; button.setAttribute('aria-expanded', 'true');
-    $$('.mega-group').forEach(group => group.classList.toggle('is-highlighted', group.dataset.group === button.dataset.menu));
-  }));
-  $('.mega-close').addEventListener('click', () => hideMega(true));
-  panel.addEventListener('click', event => { if (event.target.closest('a')) hideMega(); });
-  document.addEventListener('click', event => { if (!event.target.closest('.site-header')) hideMega(); });
-  document.addEventListener('keydown', event => { if (event.key === 'Escape' && !panel.hidden) hideMega(true); });
-  $('.site-header').addEventListener('focusout', event => {
-    if (event.relatedTarget && !$('.site-header').contains(event.relatedTarget)) hideMega();
+
+  function positionMenuMarker(button) {
+    desktopNav.style.setProperty('--menu-marker-x', button.offsetLeft + 'px');
+    desktopNav.style.setProperty('--menu-marker-width', button.offsetWidth + 'px');
+  }
+
+  function showMega(button, focusPanel = false) {
+    clearTimeout(pointerExitTimer);
+    clearTimeout(closeTimer);
+    if (activeMenu !== button) {
+      panel.dataset.entry = activeMenu ? 'switch' : 'open';
+      positionMenuMarker(button);
+      activeMenu?.setAttribute('aria-expanded', 'false');
+      activeMenu = button;
+      button.setAttribute('aria-expanded', 'true');
+      menuGroups.forEach(group => { group.hidden = group.dataset.group !== button.dataset.menu; });
+    }
+    panel.hidden = false;
+    panel.inert = false;
+    panel.dataset.open = '';
+    desktopNav.dataset.active = '';
+    if (focusPanel) {
+      const group = menuGroups.find(item => !item.hidden);
+      (group.querySelector('a') || group).focus();
+    }
+  }
+
+  menuButtons.forEach((button, index) => {
+    button.addEventListener('pointerenter', event => {
+      if (event.pointerType === 'mouse') showMega(button);
+    });
+    button.addEventListener('click', event => {
+      if (activeMenu === button && event.detail !== 0 && event.pointerType !== 'mouse') hideMega();
+      else showMega(button, event.detail === 0);
+    });
+    button.addEventListener('keydown', event => {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        showMega(button, true);
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        const offset = event.key === 'ArrowRight' ? 1 : -1;
+        const next = menuButtons[(index + offset + menuButtons.length) % menuButtons.length];
+        next.focus();
+        if (activeMenu) showMega(next);
+      }
+    });
+  });
+  header.addEventListener('pointerenter', () => clearTimeout(pointerExitTimer));
+  header.addEventListener('pointerleave', event => {
+    if (event.pointerType === 'mouse' && !panel.contains(document.activeElement)) {
+      pointerExitTimer = setTimeout(() => hideMega(), 100);
+    }
+  });
+  panel.addEventListener('click', event => { if (event.target.closest('a')) hideMega(true); });
+  document.addEventListener('click', event => { if (!header.contains(event.target)) hideMega(); });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && activeMenu) hideMega(true);
+  });
+  header.addEventListener('focusout', event => {
+    if (event.relatedTarget && !header.contains(event.relatedTarget)) hideMega();
   });
   $('.menu-open').addEventListener('click', () => { hideMega(); show($('#mobile-menu')); });
   $('.menu-close').addEventListener('click', () => close($('#mobile-menu')));
   $$('#mobile-menu a').forEach(link => link.addEventListener('click', () => close($('#mobile-menu'))));
-  const headerMode = matchMedia('(max-width:1279px)');
+  const headerMode = matchMedia('(max-width:1600px)');
   function syncHeaderMode() {
     if (headerMode.matches) hideMega();
     else close($('#mobile-menu'));
   }
   headerMode.addEventListener('change', syncHeaderMode);
   addEventListener('resize', syncHeaderMode);
+  new ResizeObserver(() => {
+    if (activeMenu) positionMenuMarker(activeMenu);
+  }).observe(desktopNav);
 
   const videos = (content.videos || []).filter(video => /^[a-zA-Z0-9_-]{11}$/.test(video.id) && safeURL(video.source));
   let selectedVideo = 0;
@@ -264,7 +342,7 @@
     if (event.button === 1 || event.clientX >= document.documentElement.clientWidth - 20) headerUserScroll = true;
   }, {passive:true});
   function paintHeader() {
-    const menuOpen = !panel.hidden || mobileMenu.open;
+    const menuOpen = panel.hasAttribute('data-open') || mobileMenu.open;
     const keyboardFocus = scrollHeader.contains(document.activeElement) && document.activeElement.matches(':focus-visible');
     const state = menuOpen ? 'menu-open' : keyboardFocus && headerState === 'scroll-hidden' ? 'scroll-visible' : headerState;
     scrollHeader.dataset.headerState = state;
@@ -284,7 +362,7 @@
     }
     paintHeader();
   }
-  new MutationObserver(paintHeader).observe(panel, {attributes:true, attributeFilter:['hidden']});
+  new MutationObserver(paintHeader).observe(panel, {attributes:true, attributeFilter:['data-open']});
   new MutationObserver(paintHeader).observe(mobileMenu, {attributes:true, attributeFilter:['open']});
   scrollHeader.addEventListener('focusin', paintHeader);
   scrollHeader.addEventListener('focusout', () => requestAnimationFrame(paintHeader));
