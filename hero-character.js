@@ -1,5 +1,5 @@
 'use strict';
-window.createHeroDrawing = async function(hero,reduced){
+window.createHeroDrawing = async function(hero,reduced,{staticText=false}={}){
  const root='./assets/images/hero/auto-drawing/';
  const response=await fetch(root+'character-layout.json?v=unit-ridge-alignment-1');if(!response.ok)throw Error('Drawing layout unavailable');const data=await response.json();
  const load=async file=>{const image=new Image();image.src=root+file;await image.decode();return image;};
@@ -35,7 +35,7 @@ window.createHeroDrawing = async function(hero,reduced){
   }
  }
  function connector(points,phase,embedded=false){move(points[0],.10,phase);const step={kind:'connector',start:time,end:time+.22,path:path(points),phase,embedded};segments.push(step);connectors.push(step);time=step.end;last=points.at(-1);}
- caption(captions[0]);connector([[500.7,260.8],[473.75,340.3]],'top',true);
+ caption(captions[0]);connector([[500.7,260.8],[473.75,340.3]],'top',!staticText);
  curves.paths.forEach((points,i)=>{const world=points.map(p=>transform(curves,p));move(world[0],.10,'lines');const step={kind:'curve',start:time,end:time+.64,path:path(world),phase:'lines',i};segments.push(step);lineSteps.push(step);time=step.end;last=world.at(-1);});
  caption(captions[2]);connector([[798,414],[739,414]],'right');
  caption(captions[1]);connector([[495,622],[467,535]],'bottom');
@@ -116,15 +116,17 @@ window.createHeroDrawing = async function(hero,reduced){
   if(step.embedded){const c=captions[0],sy=455,height=(c.image.height-sy)*f;ctx.drawImage(c.image,0,sy,c.image.width,height,c.x,c.y+sy*c.height/c.image.height,c.width,height*c.height/c.image.height);return;}
   const a=step.path.points[0],b=point(step.path,f);ctx.save();ctx.strokeStyle='#fff';ctx.fillStyle='#fff';ctx.lineWidth=1.5;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.stroke();if(f===1){ctx.beginPath();ctx.arc(b[0],b[1],3,0,Math.PI*2);ctx.fill();}ctx.restore();
  }
+ const previewDrawingOffsetY = staticText ? -29 : 0;
  function render(t){
   ctx.setTransform(ratio,0,0,ratio,0,0);ctx.clearRect(0,0,1980,virtualHeight);
-  for(const step of letters){const f=progress(step,t);if(!f)continue;const c=step.c,[x,y,w,h]=step.glyph.rect,sx=c.width/c.image.width,sy=c.height/c.image.height;ctx.save();ctx.globalAlpha=smooth(f);ctx.drawImage(c.image,x,y,w,h,c.x+x*sx,c.y+y*sy,w*sx,h*sy);ctx.restore();}
-  connectors.forEach(step=>drawConnector(step,t));let curveProgress=0;for(const step of lineSteps)if(t>=step.start)curveProgress=(step.i+progress(step,t))/lineSteps.length;
+  for(const step of staticText?[]:letters){const f=progress(step,t);if(!f)continue;const c=step.c,[x,y,w,h]=step.glyph.rect,sx=c.width/c.image.width,sy=c.height/c.image.height;ctx.save();ctx.globalAlpha=smooth(f);ctx.drawImage(c.image,x,y,w,h,c.x+x*sx,c.y+y*sy,w*sx,h*sy);ctx.restore();}
+  connectors.forEach(step=>drawConnector(step,t)); ctx.save(); ctx.translate(0,previewDrawingOffsetY); let curveProgress=0;for(const step of lineSteps)if(t>=step.start)curveProgress=(step.i+progress(step,t))/lineSteps.length;
   updateInk(curves,curveProgress);drawLayer(curves);
   if(t>glowStep.start){updateInk(glow,progress(glowStep,t));drawLayer(glow);}
   const segment=segments.find(s=>t>=s.start&&t<s.end);stage.dataset.phase=t<.35?'base':t>=duration?'complete':segment?.phase||'travel';
   if(segment||t>=duration){let pen=finalPen;if(segment){let f=progress(segment,t);if(segment.kind==='move')f=smooth(f);pen=point(segment.path,f);}ctx.save();ctx.translate(...pen);ctx.rotate(-37*Math.PI/180);const scale=500/1122;ctx.globalAlpha=Math.max(0,Math.min(1,(t-.35)/.30));ctx.drawImage(hand,-handAnchor[0]*scale,-handAnchor[1]*scale,500,1402*scale);ctx.restore();stage.dataset.penX=pen[0].toFixed(3);stage.dataset.penY=pen[1].toFixed(3);stage.dataset.penDown=String(!!segment&&segment.kind!=='move');stage.dataset.handVisible=String(t>.35);stage.dataset.character=segment?.char||'';
   }else{stage.dataset.penDown='false';stage.dataset.handVisible='false';stage.dataset.character='';}
+  ctx.restore();
   if(t>=duration&&!stage.dataset.actualComplete)stage.dataset.actualComplete=t.toFixed(3);
   stage.dataset.elapsed=Math.min(t,duration).toFixed(3);stage.dataset.revealed=String(letters.filter(s=>t>=s.end).length);stage.dataset.progress=Math.min(1,t/duration).toFixed(4);
  }

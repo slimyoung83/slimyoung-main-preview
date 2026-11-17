@@ -50,37 +50,17 @@
     img.style.setProperty('--model-mobile-position', item.mobilePosition || '65% top');
     return img;
   });
-  frames[0].src = './assets/images/hero/auto-drawing/base.png';
+  frames[0].src = './assets/images/hero/auto-drawing/clean-background.png';
+  frames[0].alt = '보랏빛 리본과 여성 실루엣';
   const hero=document.querySelector('.hero');
-  const drawingReady=window.createHeroDrawing(hero,reduced).catch(()=>{
+  const drawingReady=window.createHeroDrawing(hero,reduced,{staticText:true}).catch(()=>{
     hero.dataset.drawingError='asset-load';
     return null;
   });
   Promise.all(frames.map(img => img.decode())).then(async () => {
-    // Edit only the decoded hero copy. Original PNG and SECTION 05 stay untouched.
     const artwork = frames[0];
-    const canvas = document.createElement('canvas');
-    canvas.width = 1980; canvas.height = 901;
-    const ctx = canvas.getContext('2d', {willReadFrequently:true});
-    ctx.drawImage(artwork, 0, 0, 1980, 901);
-    function restoreRect(x,y,w,h) {
-      const top = ctx.getImageData(x,y-4,w,1).data;
-      const bottom = ctx.getImageData(x,y+h+4,w,1).data;
-      const patch = ctx.createImageData(w,h);
-      for(let row=0;row<h;row++) for(let col=0;col<w;col++) {
-        const i=(row*w+col)*4, j=col*4, t=row/(h-1);
-        for(let c=0;c<3;c++) patch.data[i+c]=Math.round(top[j+c]*(1-t)+bottom[j+c]*t);
-        patch.data[i+3]=255;
-      }
-      ctx.putImageData(patch,x,y);
-    }
-    [[1008,590,190,52],[1252,590,193,52],[1508,590,169,52],[1280,550,132,34]].forEach(r=>restoreRect(...r));
-    artwork.src=canvas.toDataURL('image/png');
-    const [drawing]=await Promise.all([drawingReady,artwork.decode()]);
-    const overlay=document.createElement('div');
-    overlay.className='hero-live-stats';
-    overlay.innerHTML='<span class="hero-lifting-label">리프팅 시술건수</span>'+[12000,72000,2000].map((n,i)=>'<span class="hero-live-number stat-'+i+'"><span data-count="'+n+'">'+n.toLocaleString('en-US')+'</span><small>건+</small></span>').join('');
-    document.querySelector('.hero').append(overlay);
+    const drawing = await drawingReady;
+    const overlay=document.querySelector('.hero-html-preview');
     const countNodes=[...overlay.querySelectorAll('[data-count]')];
     let countFrame=0;
     function count(active,start) {
