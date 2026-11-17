@@ -1,5 +1,5 @@
 /* First-slide-only ink surface. The original five PNG assets remain unchanged. */
-.hero:not(.has-models) .hero-photo{background-image:url('assets/images/hero/auto-drawing/base.png')}
+.hero:not(.has-models) .hero-photo{background-image:url('assets/images/hero/auto-drawing/clean-background.png')}
 .hero-drawing{position:absolute;width:1980px;height:901px;transform-origin:top left;overflow:visible;pointer-events:none;z-index:1;isolation:isolate}
 .hero-drawing[hidden]{display:none}
 .hero-drawing .drawing-surface{position:absolute;left:0;top:0;max-width:none;pointer-events:none}
@@ -8,5 +8,5 @@
 .hero:not(.has-models) .hero-photo{filter:none}
 /* Explicit Korean Bold fixes thin fallback glyphs, not just their computed color. */
 .hero .hero-live-stats .hero-live-number{color:#DEA1F2;opacity:1;column-gap:2px}
-.hero .hero-live-stats .hero-live-number>[data-count]{color:#DEA1F2;opacity:1}
+.hero .hero-live-stats .hero-live-number [data-count]{color:#DEA1F2;opacity:1}
 .hero .hero-live-stats .hero-live-number>small{color:#DEA1F2;-webkit-text-fill-color:#DEA1F2;font:700 24px/1 'Noto Serif KR',serif;opacity:1;align-self:baseline;margin:0;letter-spacing:0;flex:none}

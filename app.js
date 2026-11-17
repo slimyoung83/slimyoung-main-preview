@@ -74,15 +74,18 @@
     if (restoreFocus) invoker.focus();
     panel.inert = true;
     delete panel.dataset.open;
-    delete desktopNav.dataset.active;
     clearTimeout(closeTimer);
     if (motion.matches) panel.hidden = true;
     else closeTimer = setTimeout(() => { panel.hidden = true; }, 180);
   }
 
-  function positionMenuMarker(button) {
-    desktopNav.style.setProperty('--menu-marker-x', button.offsetLeft + 'px');
-    desktopNav.style.setProperty('--menu-marker-width', button.offsetWidth + 'px');
+  function positionMega(button) {
+    const bounds = header.getBoundingClientRect();
+    const trigger = button.getBoundingClientRect();
+    const width = panel.offsetWidth;
+    const center = trigger.left - bounds.left + trigger.width / 2;
+    const left = Math.max(12, Math.min(center - width / 2, bounds.width - width - 12));
+    panel.style.setProperty('--mega-left', left + 'px');
   }
 
   function showMega(button, focusPanel = false) {
@@ -90,16 +93,15 @@
     clearTimeout(closeTimer);
     if (activeMenu !== button) {
       panel.dataset.entry = activeMenu ? 'switch' : 'open';
-      positionMenuMarker(button);
       activeMenu?.setAttribute('aria-expanded', 'false');
       activeMenu = button;
       button.setAttribute('aria-expanded', 'true');
       menuGroups.forEach(group => { group.hidden = group.dataset.group !== button.dataset.menu; });
     }
     panel.hidden = false;
+    positionMega(button);
     panel.inert = false;
     panel.dataset.open = '';
-    desktopNav.dataset.active = '';
     if (focusPanel) {
       const group = menuGroups.find(item => !item.hidden);
       (group.querySelector('a') || group).focus();
@@ -152,7 +154,7 @@
   headerMode.addEventListener('change', syncHeaderMode);
   addEventListener('resize', syncHeaderMode);
   new ResizeObserver(() => {
-    if (activeMenu) positionMenuMarker(activeMenu);
+    if (activeMenu) positionMega(activeMenu);
   }).observe(desktopNav);
 
   const videos = (content.videos || []).filter(video => /^[a-zA-Z0-9_-]{11}$/.test(video.id) && safeURL(video.source));

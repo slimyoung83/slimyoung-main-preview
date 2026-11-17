@@ -30,3 +30,8 @@
 
 .hero-note-glyph { visibility:hidden; }
 .hero-note-glyph.is-written { visibility:visible; }
+
+/* Keep the unit at the final x-position throughout the count. */
+.hero-count-slot {position:relative;display:inline-block;text-align:right;}
+.hero-count-slot::before {content:attr(data-final) / "";visibility:hidden;}
+.hero-count-slot > [data-count] {position:absolute;inset:0;}

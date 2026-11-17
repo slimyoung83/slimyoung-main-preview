@@ -5,9 +5,9 @@ window.createHeroDrawing = async function(hero,reduced){
  const load=async file=>{const image=new Image();image.src=root+file;await image.decode();return image;};
  const stage=document.createElement('div');stage.className='hero-drawing';stage.hidden=true;stage.setAttribute('aria-hidden','true');
  const surface=document.createElement('canvas');surface.className='drawing-surface';stage.append(surface);hero.append(stage);const ctx=surface.getContext('2d');
- const hand=await load('hand-slim-natural.png');
+ const handReady=load('hand-slim-natural.png');
  const notes=[...hero.querySelectorAll('.hero-html-note')];
- await document.fonts.load('34px "Nanum Pen Script"',notes.map(note=>note.textContent).join(''));
+ const handwritingReady=document.fonts.load('34px "Nanum Pen Script"',notes.map(note=>note.textContent).join('')).catch(()=>[]);
  const captions=notes.map(note=>{
   let row=0;
   const glyphs=[];
@@ -55,7 +55,7 @@ window.createHeroDrawing = async function(hero,reduced){
   for(let i=0;i<ranks.length;i++)if(original.data[i*4+3]&&ranks[i])order[cursor[ranks[i]]++]=i;
   context.clearRect(0,0,canvas.width,canvas.height);return {...spec,canvas,context,original,ink,ranks,order,revealed:0};
  }
- const [curves,glow]=await Promise.all([inkLayer(data.guides,true),inkLayer(data.glow)]);
+ const [curves,glow,hand]=await Promise.all([inkLayer(data.guides,true),inkLayer(data.glow),handReady,handwritingReady]);
  const transform=(spec,p)=>{const angle=spec.angle*Math.PI/180,c=Math.cos(angle)*spec.scale,s=Math.sin(angle)*spec.scale;return [spec.offset[0]+p[0]*c-p[1]*s,spec.offset[1]+p[0]*s+p[1]*c];};
  const path=points=>{const lengths=[0];for(let i=1;i<points.length;i++)lengths.push(lengths[i-1]+Math.hypot(points[i][0]-points[i-1][0],points[i][1]-points[i-1][1]));return {points,lengths,length:lengths.at(-1)};};
  const point=(p,f)=>{const distance=p.length*Math.max(0,Math.min(1,f));let i=1;while(i<p.lengths.length-1&&p.lengths[i]<distance)i++;const a=p.points[i-1],b=p.points[i],t=(distance-p.lengths[i-1])/Math.max(.001,p.lengths[i]-p.lengths[i-1]);return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];};
