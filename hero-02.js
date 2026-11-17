@@ -75,7 +75,7 @@
 
     function count(start) {
       function tick(now) {
-        const progress = reduced.matches ? 1 : Math.max(0, Math.min(1, (now - start) / 2000));
+        const progress = reduced.matches ? 1 : Math.max(0, Math.min(1, (now - start) / 2400));
         const eased = 1 - Math.pow(1 - progress, 3);
         countNodes.forEach(node => {
           node.textContent = Math.round(Number(node.dataset.count) * eased).toLocaleString('en-US');
