@@ -53,7 +53,7 @@
   frames[0].src = './assets/images/hero/auto-drawing/clean-background.png';
   frames[0].alt = '보랏빛 리본과 여성 실루엣';
   const hero=document.querySelector('.hero');
-  const drawingReady=window.createHeroDrawing(hero,reduced,{staticText:true}).catch(()=>{
+  const drawingReady=window.createHeroDrawing(hero,reduced).catch(()=>{
     hero.dataset.drawingError='asset-load';
     return null;
   });

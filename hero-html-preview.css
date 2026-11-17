@@ -27,3 +27,6 @@
   pointer-events: auto;
   user-select: text;
 }
+
+.hero-note-glyph { visibility:hidden; }
+.hero-note-glyph.is-written { visibility:visible; }
