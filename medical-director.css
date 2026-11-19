@@ -1,0 +1,128 @@
+/* Existing Make preview styles, isolated to this standalone page. */
+*,*::before,*::after {box-sizing:border-box;}
+body {margin:0;background:var(--deep);color:var(--ivory);font:16px/1.5 'Noto Sans KR',sans-serif;}
+html {scroll-behavior:smooth;}
+h1,h2,h3,p,blockquote {margin:0;}
+h1,h2 {word-break:keep-all;overflow-wrap:break-word;}
+a {color:inherit;text-decoration:none;}
+a:focus-visible {outline:2px solid #b986ee;outline-offset:5px;}
+img,svg {display:block;vertical-align:middle;}
+img {max-width:100%;height:auto;}
+:root { --ink: #241e2c; --deep: #18131e; --purple: #6a17b9; --ivory: #f1eee8; --paper: #f7f5f1; --muted: #9e98a4; }
+.site-header { z-index: 20; border-bottom: 1px solid rgba(255, 255, 255, 0.1); justify-content: space-between; align-items: center; width: 100%; height: 106px; padding: 0px clamp(24px, 5.2vw, 100px); display: flex; position: absolute; top: 0px; left: 0px; }
+.brand { letter-spacing: 0.16em; align-items: center; gap: 14px; min-height: 44px; font-family: "DM Serif Display", serif; font-size: 18px; display: flex; }
+.brand-mark { letter-spacing: 0px; border: 1px solid rgba(255, 255, 255, 0.44); border-radius: 50%; place-items: center; width: 40px; height: 40px; font-size: 13px; display: grid; }
+.site-header nav { color: rgb(228, 224, 230); align-items: center; gap: clamp(24px, 3vw, 58px); font-size: 14px; display: flex; }
+.site-header nav a { align-items: center; min-height: 44px; display: flex; }
+.nav-cta { border: 1px solid rgba(255, 255, 255, 0.34); padding: 0px 25px; }
+.section { min-height: 900px; position: relative; }
+.hero { background: linear-gradient(90deg, rgb(24, 19, 30) 0%, rgb(36, 30, 44) 48%, rgb(32, 25, 41) 100%); grid-template-columns: 1.05fr 0.95fr; height:min(1080px,100svh);min-height:680px;display:grid; position: relative; overflow: hidden; }
+.hero::before { z-index: 1; content: ""; background: linear-gradient(rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.24), rgba(0, 0, 0, 0)); width: 1px; position: absolute; inset: 106px auto 0px 48.5%; }
+.hero-orbit, .contact-orbit { border: 1px solid rgba(143, 82, 196, 0.17); border-radius: 50%; width: 700px; height: 700px; position: absolute; top: 24%; left: 11%; }
+.hero-orbit::after, .contact-orbit::after { border-radius: inherit; content: ""; border: 1px solid rgba(255, 255, 255, 0.07); position: absolute; inset: 14%; }
+.hero-copy { z-index: 3; align-self: center; padding: 140px 5vw 40px max(6vw, -840px + 50vw); }
+.eyebrow { letter-spacing: 0.28em; font-size: 12px; font-weight: 500; }
+.eyebrow.dark { color: var(--purple); }
+.hero-rule { background: rgb(139, 62, 201); width: 58px; height: 1px; margin: 34px 0px 45px; }
+.hero h1 { letter-spacing: -0.055em; font-size: clamp(40px, 3.5vw, 68px); font-weight: 300; line-height: 1.4; }
+.hero h1 strong { font-weight: 500; display: block; }
+.doctor-name { align-items: baseline; gap: 14px; margin-top: 52px; display: flex; }
+.doctor-name span, .profile-name span { letter-spacing: 0.02em; font-family: "DM Serif Display", "Noto Sans KR", serif; font-size: 30px; }
+.doctor-name small, .profile-name small { letter-spacing: 0.08em; color: rgb(170, 163, 175); font-size: 14px; }
+.scroll-link { border-bottom: 1px solid rgba(255, 255, 255, 0.4); align-items: center; gap: 18px; min-height: 48px; margin-top: 72px; font-size: 14px; display: inline-flex; }
+.arrow { fill: none; stroke: currentcolor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.3px; width: 21px; height: 21px; }
+.hero-portrait { z-index: 2; height: 100%; min-height: 680px; position: relative; overflow: hidden; }
+.hero-portrait::before { z-index: 1; content: ""; pointer-events: none; background: linear-gradient(90deg, rgb(33, 26, 42) 0%, rgba(0, 0, 0, 0) 25%); position: absolute; inset: 0px; }
+.hero-portrait img, .philosophy-portrait img { object-fit: contain; object-position: center bottom; width: 100%; height: 100%; }
+.portrait-line { z-index: 2; background: linear-gradient(rgba(0, 0, 0, 0), rgb(143, 80, 197), rgba(0, 0, 0, 0)); width: 1px; height: 35%; position: absolute; top: 25%; right: 8%; }
+.hero-index { z-index: 4; align-items: center; gap: 10px; font-size: 12px; display: flex; position: absolute; bottom: 36px; right: 38px; }
+.hero-index i { background: rgba(255, 255, 255, 0.35); width: 54px; height: 1px; }
+.profile { background: var(--paper); color: var(--ink); grid-template-rows: auto 1fr; grid-template-columns: 0.85fr 1.15fr; column-gap: 10vw; padding: 150px max(7vw, -820px + 50vw); display: grid; }
+.section-number { color: rgb(126, 119, 130); font-family: "DM Serif Display", serif; font-size: 15px; position: absolute; top: 76px; right: 6vw; }
+.section-number::before { content: ""; background: currentcolor; width: 46px; height: 1px; margin: 0px 14px 4px 0px; display: inline-block; }
+.profile-intro { align-self: start; }
+.profile h2, .care h2 { letter-spacing: -0.055em; margin-top: 35px; font-size: clamp(36px, 3.2vw, 62px); font-weight: 300; line-height: 1.38; }
+h2 em { color: var(--purple); font-family: "DM Serif Display", "Noto Sans KR", serif; font-style: normal; }
+.profile-lead { color: rgb(98, 93, 102); margin-top: 42px; font-size: 16px; font-weight: 300; line-height: 1.9; }
+.profile-name { border-bottom: 1px solid rgb(200, 194, 201); align-self: end; padding-bottom: 18px; }
+.profile-name small { color: rgb(113, 107, 117); }
+.credentials { grid-area: 1 / 2 / span 2; padding-top: 56px; }
+.credential { border-bottom: 1px solid rgb(216, 211, 215); grid-template-columns: 58px 1fr; align-items: center; min-height: 73px; display: grid; }
+.credential:first-child { border-top: 1px solid rgb(157, 150, 158); }
+.credential span { color: var(--purple); font-family: "DM Serif Display", serif; font-size: 12px; }
+.credential p { font-size: 15px; font-weight: 400; }
+.philosophy { background: rgb(33, 26, 41); grid-template-rows: 1fr auto; grid-template-columns: 0.9fr 0.95fr 0.7fr; min-height: 1080px; padding: 130px 8vw; display: grid; overflow: hidden; }
+.philosophy::before { content: ""; background: linear-gradient(110deg, rgba(106, 23, 185, 0.08), rgba(0, 0, 0, 0) 40%), repeating-linear-gradient(90deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) calc(25% - 1px), rgba(255, 255, 255, 0.03) 25%); position: absolute; inset: 0px; }
+.philosophy-glow { filter: blur(130px); background: rgba(106, 23, 185, 0.23); border-radius: 50%; width: 600px; height: 600px; position: absolute; bottom: -25%; left: 12%; }
+.philosophy-heading { z-index: 2; padding-top: 55px; }
+.philosophy h2 { letter-spacing: -0.055em; margin-top: 40px; font-size: clamp(38px, 3.2vw, 62px); font-weight: 300; line-height: 1.45; }
+.philosophy h2 em { color: rgb(201, 149, 242); }
+.philosophy-portrait { z-index: 2; grid-area: 1 / 2 / span 2; align-self: center; height: 820px; position: relative; }
+.philosophy-portrait img { object-position: center center; box-shadow: rgba(0, 0, 0, 0.32) 0px 40px 90px; }
+.philosophy blockquote { z-index: 2; color: rgb(222, 217, 225); align-self: end; padding: 0px 0px 55px 4vw; font-size: 16px; font-weight: 300; line-height: 2.05; }
+.philosophy blockquote span { color: rgb(140, 73, 197); height: 54px; font-family: "DM Serif Display", serif; font-size: 72px; display: block; }
+.section-number.light { color: rgb(178, 170, 183); }
+.care { background: var(--ivory); min-height: 1050px; color: var(--ink); grid-template-columns: 0.33fr 1fr; padding: 150px max(7vw, -820px + 50vw); display: grid; }
+.care-aside { border-right: 1px solid rgb(200, 194, 201); position: relative; }
+.vertical-word { color: rgba(36, 30, 44, 0.07); letter-spacing: 0.04em; writing-mode: vertical-rl; font-family: "DM Serif Display", serif; font-size: 100px; position: absolute; bottom: 0px; left: -8px; }
+.care-content { padding-left: 9vw; }
+.section-kicker { color: rgb(110, 104, 112); font-size: 15px; }
+.care-story { color: rgb(95, 89, 98); grid-template-columns: 1fr 1fr; gap: 6vw; max-width: 840px; margin-top: 65px; font-size: 15px; font-weight: 300; line-height: 2; display: grid; }
+.care-principles { border-top: 1px solid rgb(170, 163, 171); grid-template-columns: repeat(3, 1fr); margin-top: 95px; display: grid; }
+.care-principles article { border-right: 1px solid rgb(208, 203, 208); min-height: 210px; padding: 28px 32px; }
+.care-principles article:first-child { padding-left: 0px; }
+.care-principles article:last-child { border: 0px; }
+.care-principles span { color: var(--purple); font-family: "DM Serif Display", serif; font-size: 13px; }
+.care-principles h3 { margin: 36px 0px 14px; font-size: 22px; font-weight: 500; }
+.care-principles p { color: rgb(101, 95, 103); font-size: 14px; line-height: 1.7; }
+.contact { text-align: center; background: radial-gradient(circle at 50% 42%, rgb(57, 33, 71) 0%, rgb(36, 30, 44) 34%, rgb(23, 18, 28) 72%); flex-direction: column; justify-content: center; align-items: center; min-height: 900px; padding: 110px 5vw 100px; display: flex; overflow: hidden; }
+.contact-orbit { width: 690px; height: 690px; top: 8%; left: 50%; transform: translateX(-50%); }
+.contact h2 { z-index: 2; letter-spacing: -0.055em; margin-top: 36px; font-size: clamp(44px, 4.3vw, 78px); font-weight: 300; line-height: 1.35; }
+.contact h2 em { color: rgb(199, 138, 242); }
+.contact-copy { z-index: 2; color: rgb(200, 193, 204); margin-top: 35px; font-size: 15px; line-height: 1.9; }
+.contact-actions { z-index: 2; grid-template-columns: 1fr 1fr; gap: 14px; width: min(780px, 100%); margin-top: 58px; display: grid; }
+.contact-actions > a { text-align: left; border: 1px solid rgba(255, 255, 255, 0.25); justify-content: space-between; align-items: center; min-height: 118px; padding: 26px 34px; transition: 0.18s; display: flex; }
+.contact-actions > a:hover { background: rgba(106, 23, 185, 0.25); border-color: rgb(163, 76, 218); }
+.contact-actions span { font-size: 17px; }
+.contact-actions small { color: rgb(170, 161, 175); letter-spacing: 0.16em; margin-bottom: 9px; font-size: 12px; display: block; }
+.diagonal { width: 26px; height: 26px; }
+.contact footer { color: rgb(159, 152, 164); border-top: 1px solid rgba(255, 255, 255, 0.12); justify-content: space-between; align-items: center; min-height: 76px; font-size: 12px; display: flex; position: absolute; bottom: 0px; left: 5vw; right: 5vw; }
+.contact footer span { color: rgb(230, 225, 232); letter-spacing: 0.12em; font-family: "DM Serif Display", serif; font-size: 15px; }
+.contact footer a { place-items: center; min-width: 48px; min-height: 48px; display: grid; }
+.image-fallback { color: rgb(199, 189, 202); border: 1px solid rgba(255, 255, 255, 0.18); flex-direction: column; justify-content: center; align-items: center; gap: 18px; width: 100%; height: 100%; font-size: 14px; display: flex; }
+.image-fallback svg { fill: none; stroke: currentcolor; stroke-width: 1px; width: 110px; }
+@media (max-width: 900px) {
+  .site-header { height: 80px; }
+  .site-header nav a:not(.nav-cta) { display: none; }
+  .brand { font-size: 14px; }
+  .hero { grid-template-rows:auto minmax(0,1fr);grid-template-columns:1fr;height:auto;min-height:960px; }
+  .hero::before { display: none; }
+  .hero-copy { padding: 140px 24px 20px; }
+  .hero h1 { font-size: clamp(36px, 10vw, 54px); }
+  .doctor-name { margin-top: 28px; }
+  .scroll-link { margin-top: 24px; }
+  .hero-portrait { min-height: 0px; }
+  .hero-portrait::before { background: linear-gradient(rgb(33, 26, 42) 0%, rgba(0, 0, 0, 0) 25%); }
+  .profile, .care { padding: 110px 24px 80px; display: block; }
+  .profile-name { margin-top: 56px; }
+  .credentials { padding-top: 42px; }
+  .philosophy { flex-direction: column; min-height: auto; padding: 110px 24px 90px; display: flex; }
+  .philosophy-heading { padding-top: 0px; }
+  .philosophy-portrait { width: 100%; height: min(720px, 140vw); margin: 60px 0px 45px; }
+  .philosophy blockquote { padding: 0px; }
+  .care-aside { border: 0px; }
+  .vertical-word { display: none; }
+  .care-content { padding: 55px 0px 0px; }
+  .care-story { grid-template-columns: 1fr; gap: 24px; }
+  .care-principles { grid-template-columns: 1fr; }
+  .care-principles article, .care-principles article:first-child { border-bottom: 1px solid rgb(208, 203, 208); border-right: 0px; min-height: 0px; padding: 28px 0px; }
+  .care-principles h3 { margin: 18px 0px 10px; }
+  .contact { min-height: 850px; padding-inline: 24px; }
+  .contact-actions { grid-template-columns: 1fr; }
+  .contact-actions > a { min-height: 96px; }
+  .contact footer p { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .contact-actions > a { transition: none; }
+}
