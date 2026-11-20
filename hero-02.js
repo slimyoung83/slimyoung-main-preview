@@ -1,42 +1,6 @@
 'use strict';
 (() => {
-  const rail = document.querySelector('.hero-quick');
-  const toggle = rail.querySelector('.quick-toggle');
-  const panel = rail.querySelector('.quick-panel');
-  const hoverQuery = matchMedia('(hover:hover) and (pointer:fine)');
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
-  let pinned = false;
-  function expand(value) { rail.classList.toggle('is-expanded', value); toggle.setAttribute('aria-expanded', String(value)); }
-  toggle.addEventListener('click', () => { pinned = !pinned; expand(pinned); });
-  panel.addEventListener('click', event => { if (!hoverQuery.matches && !rail.classList.contains('is-expanded')) { event.preventDefault(); event.stopImmediatePropagation(); pinned = true; expand(true); } }, true);
-  panel.addEventListener('pointerenter', () => { if (hoverQuery.matches) expand(true); });
-  rail.addEventListener('pointerleave', () => { if (hoverQuery.matches && !pinned) expand(false); });
-  rail.addEventListener('focusin', event => { if (event.target !== toggle && (hoverQuery.matches || event.target.matches(':focus-visible'))) expand(true); });
-  rail.addEventListener('focusout', event => { if (!rail.contains(event.relatedTarget)) { pinned = false; expand(false); } });
-  document.addEventListener('pointerdown', event => { if (!rail.contains(event.target)) { pinned = false; expand(false); } });
-  rail.addEventListener('keydown', event => { if (event.key === 'Escape') { pinned = false; expand(false); toggle.focus(); } });
-  rail.querySelectorAll('.quick-action').forEach(button => button.addEventListener('click', () => { pinned = false; expand(false); }));
-
-  // These controls are intentionally not a form. Values are never read,
-  // serialized, stored, included in a URL, or sent to the existing modal.
-  const bar = document.querySelector('.consult-bar-02');
-  bar.addEventListener('keydown', event => { if (event.key === 'Enter' && event.target.matches('input')) event.preventDefault(); });
-  const fields = [...bar.querySelectorAll('.bar-desktop input,.bar-desktop select')];
-  const consent = bar.querySelector('#preview-consent');
-  const consentStatus = bar.querySelector('#consent-status');
-  // Gate only the existing local preview modal; never submit or read contact values.
-  bar.addEventListener('click', event => {
-    if (!event.target.closest('.db-reserve')) return;
-    if (!consent.checked) {
-      event.preventDefault(); event.stopImmediatePropagation();
-      consentStatus.textContent = '필수 개인정보 동의를 확인해 주세요. 실제 접수되지 않는 시안입니다.';
-      consent.reportValidity(); consent.focus();
-    } else {
-      consentStatus.textContent = '디자인 미리보기 · 입력값 전송·저장·예약 접수 없음';
-    }
-  }, true);
-  addEventListener('pagehide', () => fields.forEach(field => { if (field.type === 'checkbox') field.checked = false; else field.value = ''; }));
-
   // Empty/uncertain assets must keep A's existing background, not simulate 3 slides.
   const candidates = window.SLIMYOUNG_HERO_MODELS;
   const controls = document.querySelector('.hero-rolling');
