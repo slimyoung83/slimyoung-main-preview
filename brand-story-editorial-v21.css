@@ -1,0 +1,31 @@
+/* V2.1 review only. Original options and shared UI remain unchanged. */
+.brand-v21 .brand-breadcrumb{position:absolute;z-index:2;top:145px;left:50%;transform:translateX(-50%);width:min(1280px,calc(100% - 120px));display:flex;justify-content:flex-end;align-items:center;gap:17px;font-size:11px;line-height:1.5;color:#e1dce6;}
+.brand-v21 .editorial-photo.portrait{height:auto;overflow:visible;background:none;}
+.brand-v21 .editorial-photo.portrait img{height:auto;object-fit:contain;border-radius:0 52px 0 0;}
+.brand-v21 .editorial-photo figcaption{padding-top:14px;color:#69616f;font-size:13px;line-height:1.7;}
+.brand-v21 .editorial-photo.recovery{aspect-ratio:auto;}
+.brand-v21 .editorial-photo.recovery img{position:static;width:100%;height:auto;max-width:100%;}
+.brand-v21 .editorial-feature-copy{border-top:0;}
+.brand-v21 .editorial-quote{border-left:0;}
+.brand-v21 .care-note{border-top:0;}
+@media(min-width:1600px){
+  .brand-v21 .hero-grid{grid-template-columns:minmax(0,1fr) 154.96875px;grid-template-rows:18px 1fr 48px;}
+  .brand-v21 .hero-copy{grid-column:1;grid-row:2;transform:translateY(39px);}
+  .brand-v21 .hero-copy h1{margin-top:0;}
+  .brand-v21 #philosophy h2{margin-top:0;}
+  .brand-v21 #philosophy .philosophy-body{margin-top:16px;}
+  .brand-v21 #approach{min-height:0;grid-template-columns:800px 1fr;gap:80px;padding-block:125px;}
+  .brand-v21 #approach .approach-copy>.reveal{margin-top:0;}
+  .brand-v21 #approach h2{margin-top:0;font-size:46px;}
+  .brand-v21 #approach .approach-list{margin-top:30px;}
+  .brand-v21 #approach .approach-row{min-height:112px;}
+  .brand-v21 #details .editorial-details-intro{margin-top:0;}
+  .brand-v21 #details h2{margin-top:0;}
+  .brand-v21 #details .editorial-quote{border-left:0;padding-left:0;}
+  .brand-v21 #details .portrait{height:auto;}
+  .brand-v21 #details .portrait img{height:auto;}
+  .brand-v21 #details .editorial-feature-copy{border-top:0;}
+  .brand-v21 #care .care-copy>.reveal{margin-top:0;}
+  .brand-v21 #care h2{margin-top:0;}
+  .brand-v21 .answers h2{margin-top:0;}
+}

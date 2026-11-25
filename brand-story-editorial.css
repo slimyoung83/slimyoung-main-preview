@@ -1,0 +1,72 @@
+/* Separate brand-story option 2. HERO and all shared UI are inherited unchanged. */
+.brand-editorial .editorial-photo{margin:0;position:relative;overflow:hidden;background:#e9e1e8;}
+.brand-editorial .editorial-photo img{width:100%;height:auto;}
+.brand-editorial .editorial-quote{margin:40px 0;color:var(--purple);font:400 28px/1.7 'Noto Serif KR',serif;}
+.brand-editorial .editorial-feature{margin-top:80px;}
+.brand-editorial .editorial-feature-copy{position:relative;padding:30px 0 20px;}
+.brand-editorial .editorial-feature .detail-number{position:static;display:block;margin-bottom:24px;}
+.brand-editorial .editorial-feature h3{font-size:30px;line-height:1.5;letter-spacing:-.04em;}
+.brand-editorial .editorial-feature p{margin-top:25px;font-size:17px;line-height:2;color:#69616f;}
+.brand-editorial .monitor{aspect-ratio:745/360;}
+.brand-editorial .monitor img{position:absolute;width:402.6845638%;max-width:none;height:auto;left:-107.3825503%;top:-297.7777778%;}
+.brand-editorial .recovery{aspect-ratio:1380/635;}
+.brand-editorial .recovery img{position:absolute;width:217.3913043%;max-width:none;height:auto;left:0;top:-12.5984252%;}
+@media(min-width:1600px){
+.brand-editorial #philosophy{min-height:0;padding:125px max(7vw,calc((100vw - 1460px)/2)) 140px;display:grid;grid-template-columns:780px 1fr;column-gap:90px;align-items:start;}
+.brand-editorial #philosophy .section-marker{grid-column:1/-1;margin-bottom:80px;}
+.brand-editorial #philosophy .philosophy-heading{margin:0;}
+.brand-editorial #philosophy h2{font-size:56px;line-height:1.5;margin-top:22px;}
+.brand-editorial #philosophy .philosophy-body{display:block;max-width:none;margin:38px 0 0;font-size:17px;line-height:2.05;}
+.brand-editorial #philosophy .philosophy-body p+p{margin-top:24px;}
+.brand-editorial #philosophy .philosophy-statement{display:none;}
+.brand-editorial #approach{width:100%;min-height:1050px;grid-template-columns:680px 1fr;gap:100px;padding:135px max(7vw,calc((100vw - 1460px)/2));align-items:start;}
+.brand-editorial #approach .approach-visual{top:155px;height:auto;min-height:0;overflow:visible;}
+.brand-editorial #approach .image-frame{height:auto;aspect-ratio:1375/635;position:relative;overflow:hidden;border-radius:0 55px 0 0;}
+.brand-editorial #approach img{position:absolute;width:218.1818182%;max-width:none;height:auto;left:-118.1818182%;top:-23.6220472%;transform:none;}
+.brand-editorial #approach .approach-visual::after{display:none;}
+.brand-editorial #approach .approach-copy{padding:0;}
+.brand-editorial #approach .approach-copy>.reveal{margin-top:62px;}
+.brand-editorial #approach h2{font-size:49px;line-height:1.55;margin-top:22px;}
+.brand-editorial #approach .section-intro{font-size:17px;line-height:2;margin-top:28px;}
+.brand-editorial #approach .approach-list{margin-top:46px;}
+.brand-editorial #approach .approach-row{min-height:135px;grid-template-columns:58px 1fr;}
+.brand-editorial #approach .approach-row h3{font-size:22px;}
+.brand-editorial #approach .approach-row p{font-size:16px;}
+.brand-editorial #details{min-height:0;padding:140px max(7vw,calc((100vw - 1460px)/2)) 160px;background:#faf8f6;}
+.brand-editorial #details .editorial-details-intro{display:grid;grid-template-columns:1fr 520px;gap:110px;align-items:center;margin-top:65px;}
+.brand-editorial #details .details-heading{margin:0;}
+.brand-editorial #details h2{font-size:56px;line-height:1.5;margin-top:23px;}
+.brand-editorial #details .editorial-quote{border-left:1px solid #c6b2d5;padding-left:40px;margin:35px 0 0;font-size:27px;}
+.brand-editorial #details .editorial-features{margin-top:110px;}
+.brand-editorial #details .editorial-feature{display:grid;grid-template-columns:620px 1fr;gap:130px;align-items:center;margin-top:125px;}
+.brand-editorial #details .editorial-feature:first-child{margin-top:0;}
+.brand-editorial #details .editorial-photo{border-radius:0 52px 0 0;}
+.brand-editorial #details .portrait{height:620px;}
+.brand-editorial #details .portrait img{height:100%;object-fit:contain;object-position:center;background:#eee9e7;}
+.brand-editorial #details .editorial-feature-copy{max-width:520px;padding:35px 0;border-top:1px solid #d9cfde;}
+.brand-editorial #details .editorial-feature h3{font-size:37px;line-height:1.5;}
+.brand-editorial #details .editorial-feature p{font-size:18px;line-height:2;}
+.brand-editorial #details .feature-environment{grid-template-columns:1fr 800px;gap:100px;}
+.brand-editorial #details .feature-environment figure{grid-column:2;grid-row:1;}
+.brand-editorial #details .feature-environment .editorial-feature-copy{grid-column:1;grid-row:1;}
+.brand-editorial #details .feature-recovery{grid-template-columns:780px 1fr;gap:100px;}
+.brand-editorial #care{min-height:0;padding:140px max(7vw,calc((100vw - 1460px)/2));grid-template-columns:650px 1fr;gap:100px;align-items:start;}
+.brand-editorial #care .care-copy>.reveal{margin-top:62px;}
+.brand-editorial #care h2{font-size:50px;line-height:1.5;margin-top:22px;}
+.brand-editorial #care .section-intro{font-size:17px;line-height:2;margin-top:34px;color:#d2c9d7;}
+.brand-editorial #care .care-note{margin-top:42px;}
+.brand-editorial #care .care-visual{min-height:0;align-self:center;}
+.brand-editorial #care .image-frame{min-height:0;height:auto;aspect-ratio:1380/635;position:relative;overflow:hidden;border-radius:0 50px 0 0;}
+.brand-editorial #care .image-frame img{position:absolute;width:217.3913043%;max-width:none;height:auto;left:0;top:-12.5984252%;transform:none;}
+.brand-editorial #care .care-visual-label{position:static;padding:34px 0 0;background:none;}
+.brand-editorial #care .care-visual-label strong{font-size:24px;line-height:1.6;}
+.brand-editorial #care .care-visual-label p{font-size:17px;line-height:2;color:#cfc5d4;margin-top:22px;}
+.brand-editorial .answers{min-height:0;padding:130px max(7vw,calc((100vw - 1460px)/2));display:grid;grid-template-columns:460px 1fr;column-gap:100px;}
+.brand-editorial .answers>.section-marker{grid-column:1/-1;margin-bottom:60px;}
+.brand-editorial .answers-heading{margin:0;}
+.brand-editorial .answers h2{font-size:47px;line-height:1.55;margin-top:24px;}
+.brand-editorial .answer-list{width:100%;max-width:none;margin:0;}
+.brand-editorial .answer-list summary{min-height:108px;grid-template-columns:48px 1fr 35px;}
+.brand-editorial .answer-list summary strong{font-size:18px;}
+.brand-editorial .answer-list details>p{padding-left:48px;font-size:17px;}
+}
