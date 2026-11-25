@@ -1,0 +1,26 @@
+/* Separate V1.3 comparison page. V1.2 and shared files stay unchanged. */
+.safety-v13-body,.safety-v13-chapters{display:contents;}
+.safety-v13-sticky{display:none;}
+@media (width:1920px){
+.safety-v13 .safety-v13-body{display:grid;grid-template-columns:340px 1000px;gap:120px;width:1460px;margin-inline:auto;padding-block:130px 150px;align-items:start;}
+.safety-v13 .safety-v13-sticky{display:block;position:sticky;top:clamp(128px,calc(50vh - 120px),420px);align-self:start;padding-top:28px;border-top:1px solid #c8b4d8;}
+.safety-v13 .safety-v13-sticky h2{font:400 46px/1.55 'Noto Serif KR',serif;letter-spacing:-.055em;word-break:keep-all;}
+.safety-v13 .safety-v13-sticky em{color:#8c49c5;}
+.safety-v13 .safety-v13-chapters{display:block;min-width:0;}
+.safety-v13 .safety-v13-body .safety-section{padding:0 0 105px;margin:0 0 105px;border-bottom:1px solid #ded6e3;background:transparent;color:#29242e;scroll-margin-top:128px;}
+.safety-v13 .safety-v13-body .safety-section:last-child{padding-bottom:0;margin-bottom:0;border-bottom:0;}
+.safety-v13 .safety-v13-body .safety-section::before{display:none;}
+.safety-v13 .safety-v13-body .safety-split{display:block;width:100%;margin:0;}
+.safety-v13 .safety-v13-body .safety-copy{position:relative;padding:0 0 0 102px;margin-top:44px;}
+.safety-v13 .safety-v13-body .safety-section-label{display:block;margin-bottom:20px;}
+.safety-v13 .safety-v13-body .safety-number{position:absolute;left:0;top:0;color:#c1abcf;font-size:60px;}
+.safety-v13 .safety-v13-body .safety-eyebrow{padding:0;color:#8c49c5;font-size:11px;}
+.safety-v13 .safety-v13-body .safety-copy h2{font-size:36px;line-height:1.55;}
+.safety-v13 .safety-v13-body .safety-copy em{color:#8c49c5;}
+.safety-v13 .safety-v13-body .safety-copy>p:not(.safety-review-note){max-width:820px;margin-top:26px;color:#69616f;font-size:17px;line-height:2;}
+.safety-v13 .safety-v13-body .safety-review-note{max-width:820px;color:#75637f;border-color:#ded6e3;}
+.safety-v13 .safety-v13-body .safety-figure{margin:0;}
+.safety-v13 .safety-v13-body .safety-figure figcaption{color:#756d7c;}
+.safety-v13 .safety-v13-body .safety-detail-line{max-width:820px;}
+.safety-v13 .safety-v13-body .safety-monitor-window{border-radius:18px;}
+}
