@@ -1,0 +1,7 @@
+/* V1.2 local model-photo refinement. Inherits unchanged V1/V1.1 layout. */
+.body-contouring-v12 .bc-hero-picture img{object-position:center 18%;}
+.body-contouring-v12 .bc-axilla>img{border-radius:0 46px 0 0;}
+.body-contouring-v12 .bc-region-tabs{grid-template-columns:repeat(6,minmax(0,1fr));}
+.body-contouring-v12 .bc-region-tabs button{grid-column:span 2;}
+.body-contouring-v12 .bc-region-tabs button:nth-child(4){grid-column:2/span 2;}
+.body-contouring-v12 .bc-region-tabs button:nth-child(5){grid-column:4/span 2;}
