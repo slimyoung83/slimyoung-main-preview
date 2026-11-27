@@ -12,11 +12,13 @@
    if(!Object.hasOwn(templates,name))throw new Error('Unknown shared UI slot: '+name);
    const t=document.createElement('template');t.innerHTML=templates[name];
    for(const root of t.content.children)root.classList.add('shared-ui');
-   if(detail)t.content.querySelectorAll('a[href^="#"]').forEach(a=>{
-    const href=a.getAttribute('href');if(href==='#top'||!document.getElementById(href.slice(1)))a.setAttribute('href','index.html'+(href==='#top'?'':href));
-   });
    if(slot.id)t.content.firstElementChild.id=slot.id;
    slot.replaceWith(t.content);
+  });
+  // Resolve anchors after every shared section exists, including local #visit.
+  if(detail)$$('.shared-ui a[href^="#"]').forEach(a=>{
+   const href=a.getAttribute('href');
+   if(href==='#top'||!document.getElementById(href.slice(1)))a.setAttribute('href','index.html'+(href==='#top'?'':href));
   });
   document.body.classList.add('shared-ui-active');
  }catch(error){document.body.dataset.sharedUiError='mount';console.error('[Shared UI]',error);throw error;}
