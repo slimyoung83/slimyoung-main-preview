@@ -622,3 +622,30 @@ body:has(.consult-bar-02):where(.shared-ui,.shared-ui *,body.shared-ui-active){p
 
 /* Preserve the existing shared narrow-screen stack after scoping the map. */
 @media(max-width:900px){#visit.shared-location .location-layout{grid-template-columns:minmax(0,1fr);gap:26px;}}
+
+/* Shared lower V1.2.1: desktop ending, without changing body or consult-bar layout.
+   Existing reserve is 130px. The 190px footer budget is deliberately below the
+   measured 208px footer, leaving ~18px of dark Location above a full viewport. */
+@media(min-width:1200px){
+  #visit.shared-location{
+    min-height:max(640px,calc(100svh - 190px - 130px));
+    display:grid;
+    align-content:center;
+    padding-block:88px;
+  }
+  .location-footer.p8-footer.shared-ui{
+    position:relative;
+    padding-top:44px;
+    padding-bottom:46px;
+  }
+  /* Move the existing 130px reservation into a painted terminal block.
+     Its height remains unchanged; body color and fixed-bar geometry are untouched. */
+  body.shared-ui-active:has(#visit.shared-location){padding-bottom:0;}
+  body.shared-ui-active:has(#visit.shared-location)::after{
+    content:"";
+    display:block;
+    height:130px;
+    background:#241e2c;
+    pointer-events:none;
+  }
+}
